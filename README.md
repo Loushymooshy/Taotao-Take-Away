@@ -1,4 +1,4 @@
-##Fullstackproject by Ghost Pirates##
+# Fullstackproject by Ghost Pirates
 
 By Troj Andersen, Baran Bulduk, Amanda Cyrus, Ellika Larsson
 FE23
