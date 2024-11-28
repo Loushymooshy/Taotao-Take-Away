@@ -1,0 +1,100 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: troand
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: Backend
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: eu-north-1
+  iam:
+    role:
+      statements:
+        - Effect: "Allow"
+          Action:
+            - dynamodb:Query
+            - dynamodb:Scan
+            - dynamodb:GetItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            - dynamodb:DeleteItem
+          Resource: "*"
+
+functions:
+  taoMenu:
+    handler: functions/getMenu/index.handler
+    events:
+      - httpApi:
+          path: /menu
+          method: GET
+
+  taoOrders:
+    handler: functions/getOrders/index.handler
+    events:
+      - httpApi:
+          path: /orders
+          method: GET
+
+  taoStock:
+    handler: functions/getStock/index.handler
+    events:
+      - httpApi:
+          path: /stock
+          method: GET
+
+  taoUsers:
+    handler: functions/getUsers/index.handler
+    events:
+      - httpApi:
+          path: /users
+          method: GET
+
+resources:
+  Resources:
+    taoMenu:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: taoMenu
+        AttributeDefinitions:
+          - AttributeName: menuID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: menuID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    taoOrders:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: taoOrders
+        AttributeDefinitions:
+          - AttributeName: orderID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: orderID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    taoStock:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: taoStock
+        AttributeDefinitions:
+          - AttributeName: stockID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: stockID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
+
+    taoUsers:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: taoUsers
+        AttributeDefinitions:
+          - AttributeName: userID
+            AttributeType: S
+        KeySchema:
+          - AttributeName: userID
+            KeyType: HASH
+        BillingMode: PAY_PER_REQUEST
