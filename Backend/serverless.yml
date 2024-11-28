@@ -21,33 +21,40 @@ provider:
           Resource: "*"
 
 functions:
-  taoMenu:
+  getMenu:
     handler: functions/getMenu/index.handler
     events:
       - httpApi:
           path: /menu
           method: GET
 
-  taoOrders:
+  getOrders:
     handler: functions/getOrders/index.handler
     events:
       - httpApi:
           path: /orders
           method: GET
 
-  taoStock:
+  getStock:
     handler: functions/getStock/index.handler
     events:
       - httpApi:
           path: /stock
           method: GET
 
-  taoUsers:
+  getUsers:
     handler: functions/getUsers/index.handler
     events:
       - httpApi:
           path: /users
           method: GET
+
+  postOrder:
+    handler: functions/postOrder/index.handler
+    events:
+      - httpApi:
+          path: /orders
+          method: POST
 
 resources:
   Resources:
