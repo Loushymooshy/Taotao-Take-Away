@@ -1,6 +1,7 @@
 const { sendResponse, sendError } = require("../../responses/index");
 const { db } = require("../../services/db");
 
+
 async function getOrders() {
   const { Items } = await db.scan({
     TableName: "taoOrders",
