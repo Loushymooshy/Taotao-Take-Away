@@ -1,16 +1,16 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Meny from "./pages/Kund/Meny";
-import OmOss from "./pages/Kund/OmOss";
-import Varukorg from "./pages/Kund/Varukorg&Betalning/Varukorg";
-import Kontakt from "./pages/Kund/Kontakt";
-import OrderHistorik from "./pages/Kund/OrderHistorik";
-import Betalning from "./pages/Kund/Varukorg&Betalning/Betalning";
-import OrderBekräftelse from "./pages/Kund/Varukorg&Betalning/Orderbekräftelse";
-import Beställning from "./pages/Anställd/Beställningar";
-import AnställdMeny from "./pages/Anställd/AnställdMeny";
-import Lagerstatus from "./pages/Anställd/Lagerstatus";
+import Meny from "./pages/customer/Home";
+import OmOss from "./pages/customer/AboutUs";
+import Varukorg from "./pages/customer/Cart&Payment/Cart";
+import Kontakt from "./pages/customer/Contact";
+import OrderHistorik from "./pages/customer/OrderHistory";
+import Betalning from "./pages/customer/Cart&Payment/Payment";
+import OrderBekräftelse from "./pages/customer/Cart&Payment/Confirmation";
+import Beställning from "./pages/admin/Orders";
+import AnställdMeny from "./pages/admin/StoreItems";
+import Lagerstatus from "./pages/admin/StorageStatus";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
