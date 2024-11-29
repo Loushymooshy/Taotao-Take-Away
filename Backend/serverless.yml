@@ -82,15 +82,15 @@ resources:
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 
-    taoStock:
+    taoStockpile:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: taoStock
+        TableName: taoStockpile
         AttributeDefinitions:
-          - AttributeName: stockID
+          - AttributeName: ingredient
             AttributeType: S
         KeySchema:
-          - AttributeName: stockID
+          - AttributeName: ingredient
             KeyType: HASH
         BillingMode: PAY_PER_REQUEST
 

@@ -3,7 +3,7 @@ const { db } = require("../../services/db");
 
 async function getStock() {
   const { Items } = await db.scan({
-    TableName: "taoStock",
+    TableName: "taoStockpile",
   });
 
   return Items;
