@@ -1,37 +1,37 @@
 // import { useState } from 'react'
 // import React, { useEffect } from "react";
 // import axios from 'axios';
-import Header from "../../components/button/Header";
-import Footer from "../../components/button/Footer";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 const Home: React.FC = () => {
   return (
     <>
       <Header />
-      <main style={mainStyle}>
+      <main>
         <img></img>
-        <h1>Populärara rätter</h1>
+        <h1>Popular dishes</h1>
         <section>
           <article>
-            <h2>Maträtt 1</h2>
+            <h2>Item 1</h2>
             <h2>100kr</h2>
           </article>
           <article>
-            <h2>Maträtt 2</h2>
+            <h2>Item 2</h2>
             <h2>100kr</h2>
           </article>
         </section>
-        <h1>MENY</h1>
+        <h1>MENU</h1>
         <h2>MAIN</h2>
         <main>
           <section>
-            <h3>Maträtt 1</h3>
+            <h3>Item 1</h3>
             <h3>_________________</h3>
             <h3>100kr</h3>
             <button>+</button>
           </section>
           <section>
-            <h3>Maträtt 2</h3>
+            <h3>Item 2</h3>
             <h3>_________________</h3>
             <h3>100kr</h3>
             <button>+</button>
@@ -41,11 +41,6 @@ const Home: React.FC = () => {
       <Footer />
     </>
   );
-};
-
-const mainStyle: React.CSSProperties = {
-  padding: "20px",
-  textAlign: "center",
 };
 
 export default Home;
