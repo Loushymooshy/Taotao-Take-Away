@@ -1,7 +1,7 @@
 const AboutUs: React.FC = () => {
   return (
     <>
-      <h1>OM OSS</h1>
+      <h1>ABOUT US</h1>
       <p>Lorem Ipsum</p>
     </>
   );

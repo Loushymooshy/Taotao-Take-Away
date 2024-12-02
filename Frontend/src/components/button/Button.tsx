@@ -1,9 +1,5 @@
+const Button: React.FC = () => {
+  return <button>Button</button>;
+};
 
-
-const Button = () => {
-  return (
-    <div>Button</div>
-  )
-}
-
-export default Button
+export default Button;
