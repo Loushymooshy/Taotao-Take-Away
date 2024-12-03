@@ -24,48 +24,48 @@ const Home: React.FC = () => {
         </section>
         <h2>MAIN</h2>
         <main>
-          <section>
+          <article>
             <h3>Item 1</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
-          <section>
+          </article>
+          <article>
             <h3>Item 2</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
+          </article>
         </main>
         <h2>SIDES</h2>
         <main>
-          <section>
+          <article>
             <h3>Side 1</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
-          <section>
+          </article>
+          <article>
             <h3>Side 2</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
+          </article>
         </main>
         <h2>DRINKS</h2>
         <main>
-          <section>
+          <article>
             <h3>Drink 1</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
-          <section>
+          </article>
+          <article>
             <h3>Drink 2</h3>
             <h3>_________________</h3>
             <h3>100 kr</h3>
             <button>+</button>
-          </section>
+          </article>
         </main>
       </main>
       <Footer />
