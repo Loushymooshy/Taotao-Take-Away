@@ -1,5 +1,6 @@
 const { sendResponse, sendError } = require("../../responses/index");
 const { db } = require("../../services/db");
+const { checkApiKey } = require("../../middleware/checkApiKey");
 
 
 async function getOrders() {
@@ -11,6 +12,11 @@ async function getOrders() {
 }
 
 exports.handler = async (event) => {
+  // Kontrollera API-nyckeln
+  const apiKeyError = checkApiKey(event);
+  if (apiKeyError) {
+    return apiKeyError; // Returnera fel om nyckeln inte är giltig
+  }
   try {
     const data = await getOrders();
     return sendResponse(data);

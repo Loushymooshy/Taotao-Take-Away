@@ -1,7 +1,13 @@
 const { db } = require("../../services/db");
 const { v4: uuid4 } = require("uuid");
+const { checkApiKey } = require("../../middleware/checkApiKey");
 
 exports.handler = async (event) => {
+  // Kontrollera API-nyckeln
+  const apiKeyError = checkApiKey(event);
+  if (apiKeyError) {
+    return apiKeyError; // Returnera fel om nyckeln inte är giltig
+  }
   try {
     // Extrahera menuID från event.body
     const body = JSON.parse(event.body);
