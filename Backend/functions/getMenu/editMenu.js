@@ -1,10 +1,18 @@
 const { db } = require("../../services/db");
 const { verifyToken } = require("../../middleware/verifyToken");
+const { checkApiKey } = require("../../middleware/checkApiKey");
 
 exports.handler = async (event) => {
+  // Kontrollera API-nyckeln
+  const apiKeyError = checkApiKey(event);
+  if (apiKeyError) {
+    return apiKeyError;
+  }
+
+  // Kontrollera JWT-token och roll
   const tokenValidationResult = await verifyToken(["admin"])(event);
   if (tokenValidationResult.statusCode !== 200) {
-    return tokenValidationResult; // Om token inte är giltig, returnera fel
+    return tokenValidationResult;
   }
 
   try {
@@ -31,7 +39,6 @@ exports.handler = async (event) => {
       },
     };
 
-    // Använd `await` utan `.promise()` med SDK v3
     await db.update(updateParams);
 
     return {
