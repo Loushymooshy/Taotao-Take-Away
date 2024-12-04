@@ -1,10 +1,6 @@
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-
 const Payment: React.FC = () => {
   return (
     <>
-      <Header />
       <h1>PAYMENT</h1>
       <form>
         <section>
@@ -28,7 +24,6 @@ const Payment: React.FC = () => {
           <button type="submit">CANCEL PAYMENT</button>
         </section>
       </form>
-      <Footer />
     </>
   );
 };

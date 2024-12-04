@@ -1,10 +1,6 @@
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-
 const Contact: React.FC = () => {
   return (
     <>
-      <Header />
       <h1>CONTACT US</h1>
       <section>
         <article>
@@ -35,7 +31,6 @@ const Contact: React.FC = () => {
           </form>
         </article>
       </section>
-      <Footer />
     </>
   );
 };

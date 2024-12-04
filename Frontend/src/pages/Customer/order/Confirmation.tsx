@@ -1,10 +1,6 @@
-import Header from "../../../components/Header";
-import Footer from "../../../components/Footer";
-
 const Confirmation: React.FC = () => {
   return (
     <>
-      <Header />
       <h1>CONFIRMATION</h1>
       <main>
         <article>
@@ -38,7 +34,6 @@ const Confirmation: React.FC = () => {
         <button>CHANGE MY ORDER</button>
         <button>CANCEL ORDER</button>
       </section>
-      <Footer />
     </>
   );
 };
