@@ -2,34 +2,17 @@ const Contact: React.FC = () => {
   return (
     <>
       <h1>CONTACT US</h1>
-      <section>
-        <article>
-          <p>If you have any questions please contact us at:</p>
-          <p>Phone: +46 123 456 789</p>
-          <p>Email: taotao@example.com</p>
-          <p>Address: 123 Main Street, City, Country</p>
-          <p>Opening hours: 10:00 - 22:00</p>
-          <p>
-            <a href="https://www.facebook.com/taotaotakeaway">Facebook</a>
-          </p>
-          <p>
-            <a href="https://www.instagram.com/taotaotakeaway">Instagram</a>
-          </p>
-          <p>
-            <a href="https://www.tiktok.com/taotaotakeaway">Tiktok</a>
-          </p>
-        </article>
-        <article>
-          <form>
-            <label htmlFor="name">NAME:</label>
-            <input type="text" id="name" name="name" />
-            <label htmlFor="email">EMAIL:</label>
-            <input type="email" id="email" name="email" />
-            <label htmlFor="message">MESSAGE:</label>
-            <textarea id="message" name="message"></textarea>
-            <button type="submit">SEND</button>
-          </form>
-        </article>
+      <section className="flex justify-center pb-28">
+        <form className="bg-pandaWhite text-pandaBlack  flex flex-col p-6 w-1/3 rounded-md">
+          <label className="mt-2 font-bold"
+          htmlFor="name">NAME:</label>
+          <input className="rounded-md h-8 px-2" type="text" id="name" name="name" />
+          <label className="mt-4 font-bold" htmlFor="email">EMAIL:</label>
+          <input className="rounded-md h-8 px-2 " type="email" id="email" name="email" />
+          <label className="mt-4 font-bold " htmlFor="message">MESSAGE:</label>
+          <textarea className="rounded-md" id="message" name="message"></textarea>
+          <button className="bg-themeGreen text-pandaWhite rounded-md mt-4 mb-2 h-12" type="submit">SEND</button>
+        </form>
       </section>
     </>
   );
