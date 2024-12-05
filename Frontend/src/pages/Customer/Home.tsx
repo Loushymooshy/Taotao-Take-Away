@@ -1,10 +1,11 @@
 // import { useState } from 'react'
 // import React, { useEffect } from "react";
 // import axios from 'axios';
+// import Hero from "../../components/Hero";
 
 const Home: React.FC = () => {
   return (
-    <>
+    <div className="">
       <main>
         <img></img>
         <h1>MENU</h1>
@@ -65,7 +66,7 @@ const Home: React.FC = () => {
           </article>
         </main>
       </main>
-    </>
+    </div>
   );
 };
 
