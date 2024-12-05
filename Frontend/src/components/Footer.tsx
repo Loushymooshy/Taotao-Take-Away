@@ -4,30 +4,17 @@ import linkedinIcon from "../assets/linkedinicon.svg";
 import xIcon from "../assets/xicon.svg";
 import youtubeIcon from "../assets/youtubeicon.svg";
 
-// const Footer: React.FC = () => {
-//   return (
-//     <footer className="flex justify-end p-2">
-//       <p>© 2024 Taotao Take-Away. All rights reserved.</p>
-//       <p>
-//         Follow us on <a href="#">Social Media</a>
-//       </p>
-//     </footer>
-//   );
-// };
-
 const Footer: React.FC = () => {
   return (
     <footer className="bg-themeCream text-pandaBlack">
       {/* Upper Section */}
       <div className="container mx-auto max-w-screen-xl px-4 py-6 flex justify-between items-start">
-        {/* Column 1: Logo and About */}
         <div className="md:w-1/3">
           <h3 className="font-Darumadrop text-2xl font-bold">TaoTao</h3>
           <p>Experience the art of sushi in every bite.</p>
         </div>
 
-        {/* Column 2: Navigation */}
-        <div className="md:w-1/3 mt-4 md:mt-0">
+        <div className="md:w-1/3 mt-2 md:mt-0">
           <h3 className="text-lg font-bold">NAV</h3>
           <ul className="space-y-1">
             <li>
@@ -48,7 +35,6 @@ const Footer: React.FC = () => {
           </ul>
         </div>
 
-        {/* Column 3: Contact Info */}
         <div className="md:w-1/3 mt-4 md:mt-0">
           <h3 className="text-lg font-bold">Contact</h3>
           <p>123 Sushi Street</p>
@@ -66,10 +52,7 @@ const Footer: React.FC = () => {
       {/* Lower Section */}
       <div>
         <div className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-start items-center">
-          {/* Copyright */}
           <p className="text-sm">© 2023 TaoTao Sushi. All rights reserved.</p>
-
-          {/* Social Media Links */}
           <div className="flex space-x-4 mt-2 md:mt-0 md:ml-auto">
             <a href="#" aria-label="X">
               <img src={xIcon} alt="X Icon" />
