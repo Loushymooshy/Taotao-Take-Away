@@ -1,10 +1,6 @@
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-
 const AboutUs: React.FC = () => {
   return (
     <>
-      <Header />
       <h1>ABOUT US</h1>
       <section>
         <p>
@@ -37,7 +33,6 @@ const AboutUs: React.FC = () => {
           culture.
         </p>
       </section>
-      <Footer />
     </>
   );
 };

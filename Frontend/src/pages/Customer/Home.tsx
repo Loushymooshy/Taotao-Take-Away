@@ -1,15 +1,12 @@
 // import { useState } from 'react'
 // import React, { useEffect } from "react";
 // import axios from 'axios';
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
 
 const Home: React.FC = () => {
   return (
     <>
-      <Header />
       <main>
-        <img></img>        
+        <img></img>
         <h1>MENU</h1>
         <h2>POPULAR DISHES</h2>
         <section>
@@ -68,7 +65,6 @@ const Home: React.FC = () => {
           </article>
         </main>
       </main>
-      <Footer />
     </>
   );
 };
