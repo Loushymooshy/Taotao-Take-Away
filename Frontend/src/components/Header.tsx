@@ -8,7 +8,7 @@ const Header: React.FC = () => {
       <div className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-between items-center">
         <a
           href="/"
-          className="font-Darumadrop text-4xl font-extrabold tracking-widest"
+          className="font-Darumadrop text-4xl tracking-widest text-outline-black"
         >
           TAOTAO
         </a>
@@ -25,7 +25,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex space-x-6">
-          <img src={login} alt="login" />
+          <img className="shadow-md" src={login} alt="login" />
           <img src={cartIcon} alt="cartIcon" />
         </div>
       </div>

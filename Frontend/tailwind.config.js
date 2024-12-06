@@ -16,10 +16,21 @@ module.exports = {
       fontFamily: {
         Darumadrop: ["Darumadrop One", "sans-serif"],
       },
+      textStroke: {
+        black: "0.5px #1E1E1E",
+      },
     },
   },
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      addUtilities({
+        ".text-outline-black": {
+          "-webkit-text-stroke": "0.5px #1E1E1E",
+        },
+      });
+    },
+  ],
 };
