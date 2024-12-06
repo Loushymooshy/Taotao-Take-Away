@@ -3,7 +3,7 @@ import arrowHero from "../assets/arrowHero.svg";
 
 const Hero: React.FC = () => {
   return (
-    <main className="bg-themeDarkGreen text-pandaWhite p-4 flex flex-col items-center min-w-full">
+    <main className="bg-themeDarkGreen text-pandaWhite space-y-5 py-10 flex flex-col items-center min-w-full shadow-md">
       <h2 className="font-Darumadrop text-4xl">TAOTAO</h2>
       <img src={pandaHero} alt="pandaHero" />
       <h3 className="font-Darumadrop text-xl">
