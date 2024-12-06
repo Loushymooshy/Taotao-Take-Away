@@ -19,17 +19,17 @@ const Footer: React.FC = () => {
           <ul className="space-y-1">
             <li>
               <a href="/menu" className="hover:underline">
-                Menu
+                MENU
               </a>
             </li>
             <li>
               <a href="/about-us" className="hover:underline">
-                About us
+                ABOUT US
               </a>
             </li>
             <li>
               <a href="/contact" className="hover:underline">
-                Contact
+                CONTACT
               </a>
             </li>
           </ul>

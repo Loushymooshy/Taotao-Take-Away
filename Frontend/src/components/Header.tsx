@@ -14,13 +14,13 @@ const Header: React.FC = () => {
         </a>
         <nav className="space-x-6">
           <a href="/" className="hover:underline">
-            Menu
+            MENU
           </a>
           <a href="/about-us" className="hover:underline">
-            About Us
+            ABOUT US
           </a>
           <a href="/contact" className="hover:underline">
-            Contact
+            CONTACT
           </a>
         </nav>
 
