@@ -16,7 +16,7 @@ const Home: React.FC = () => {
         <h2 className="text-4xl font-Darumadrop font-bold text-center">Menu</h2>
 
         <div className="flex justify-center mt-10 space-x-4">
-          <button className="px-4 py-2 bg-themeDarkGreen text-white rounded-full hover:bg-themeGreen">
+          <button className="px-4 py-2 bg-themeGreen text-white rounded-full hover:bg-themeDarkGreen">
             All
           </button>
           <button className="px-4 py-2 bg-gray-200 text-gray-700 rounded-full hover:bg-gray-300">

@@ -10,7 +10,7 @@ const Card: React.FC = () => {
       </p>
       <div className="flex items-center justify-between w-full mt-2">
         <span className="text-lg font-bold">$12.99</span>
-        <button className="bg-themeDarkGreen text-white rounded-full px-5 py-1 hover:bg-themeGreen">
+        <button className="bg-themeGreen text-white rounded-full px-5 py-1 hover:bg-themeDarkGreen">
           +
         </button>
       </div>
