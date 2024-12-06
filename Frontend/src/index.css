@@ -16,3 +16,11 @@ h1 {
   height: 200px;
 
 }
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+  }
+
+}
+
