@@ -8,7 +8,7 @@ const Hero: React.FC = () => {
         TAOTAO
       </h2>
       <img className="drop-shadow-xl" src={pandaHero} alt="pandaHero" />
-      <h3 className="font-Darumadrop text-xl ">
+      <h3 className="font-Darumadrop text-xl">
         Where every bite puts a smile on your face
       </h3>
       <img src={arrowHero} alt="arrowHero" />
