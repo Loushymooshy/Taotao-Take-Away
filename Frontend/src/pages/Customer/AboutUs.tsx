@@ -5,8 +5,8 @@ const AboutUs: React.FC = () => {
     <>
       
       <main>
-        <h1>ABOUT US</h1>
-        <section className="flex mb-28">
+        <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">ABOUT US</h1>
+        <section className="flex">
         <article className="flex w-1/2 justify-center">
           <img src={pandaIcon} alt="pandaIcon"/>
         </article>

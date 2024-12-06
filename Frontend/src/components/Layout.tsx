@@ -17,7 +17,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <div className="flex flex-col min-h-screen">
       <Header />
       {isHomePage && <Hero />}
-      <main className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-center items-center mb-10">
+      <main className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-center items-center mb-28">
         {children}
       </main>
       <Footer />
