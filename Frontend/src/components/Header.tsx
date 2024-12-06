@@ -1,9 +1,10 @@
 import React from "react";
 import cartIcon from "../assets/cart.svg";
+import login from "../assets/login.svg";
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-themeDarkGreen text-pandaWhite">
+    <header className="bg-themeDarkGreen text-pandaWhite shadow-md">
       <div className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-between items-center">
         <a
           href="/"
@@ -22,10 +23,10 @@ const Header: React.FC = () => {
             Contact
           </a>
         </nav>
-        <div className="relative">
-          <button>
-            <img src={cartIcon} alt="cartIcon" />
-          </button>
+
+        <div className="flex space-x-6">
+          <img src={login} alt="login" />
+          <img src={cartIcon} alt="cartIcon" />
         </div>
       </div>
     </header>
