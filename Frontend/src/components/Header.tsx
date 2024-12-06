@@ -1,6 +1,6 @@
 import React from "react";
-import cartIcon from "../assets/cart.svg";
 import login from "../assets/login.svg";
+import { ShoppingCartDropdown } from "./shopping-cart";
 
 const Header: React.FC = () => {
   return (
@@ -25,8 +25,8 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex space-x-6">
-          <img className="shadow-md" src={login} alt="login" />
-          <img src={cartIcon} alt="cartIcon" />
+          <img src={login} alt="login" />
+          <ShoppingCartDropdown />
         </div>
       </div>
     </header>

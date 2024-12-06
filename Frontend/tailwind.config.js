@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
@@ -19,6 +20,11 @@ module.exports = {
       textStroke: {
         black: "0.5px #1E1E1E",
       },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
     },
   },
   variants: {
@@ -33,4 +39,5 @@ module.exports = {
       });
     },
   ],
+  plugins: [require("tailwindcss-animate")],
 };
