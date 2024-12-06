@@ -4,7 +4,7 @@ import login from "../assets/login.svg";
 
 const Header: React.FC = () => {
   return (
-    <header className="bg-themeDarkGreen text-pandaWhite">
+    <header className="bg-themeDarkGreen text-pandaWhite shadow-md">
       <div className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-between items-center">
         <a
           href="/"
