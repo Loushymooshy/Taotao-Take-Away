@@ -1,13 +1,16 @@
+import pandaIcon from "../../assets/pandaicon.svg";
+
 const AboutUs: React.FC = () => {
   return (
     <>
       
       <main>
         <h1>ABOUT US</h1>
-        <article>
-          <img src="" alt="" />
+        <section className="flex mb-28">
+        <article className="flex w-1/2 justify-center">
+          <img src={pandaIcon} alt="pandaIcon"/>
         </article>
-        <article>
+        <article className="w-1/2">
         <p>
           Welcome to our Japanese restaurant, where we bring the rich and
           diverse flavors of Japan to your table. Our passion for authentic
@@ -38,6 +41,7 @@ const AboutUs: React.FC = () => {
           culture.
         </p>
         </article>
+        </section>
       </main>
     </>
   );
