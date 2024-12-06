@@ -1,8 +1,13 @@
 const AboutUs: React.FC = () => {
   return (
     <>
-      <h1>ABOUT US</h1>
-      <section>
+      
+      <main>
+        <h1>ABOUT US</h1>
+        <article>
+          <img src="" alt="" />
+        </article>
+        <article>
         <p>
           Welcome to our Japanese restaurant, where we bring the rich and
           diverse flavors of Japan to your table. Our passion for authentic
@@ -32,7 +37,8 @@ const AboutUs: React.FC = () => {
           Japanese restaurant, where every meal is a celebration of flavor and
           culture.
         </p>
-      </section>
+        </article>
+      </main>
     </>
   );
 };
