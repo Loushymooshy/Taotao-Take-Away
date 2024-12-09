@@ -55,7 +55,7 @@ const Payment: React.FC = () => {
               </div>
             </div>
             <button
-              className="bg-themeGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
+              className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
               type="submit"
             >
               PAY WITH CARD
@@ -73,7 +73,7 @@ const Payment: React.FC = () => {
               name="swish-number"
             />
             <button
-              className="bg-themeGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
+              className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
               type="submit"
             >
               PAY WITH SWISH
