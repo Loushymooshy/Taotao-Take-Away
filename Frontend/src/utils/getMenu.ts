@@ -7,8 +7,7 @@ interface MenuItem {
 }
 
 const getMenu = async (): Promise<MenuItem[]> => {
-  const apiUrl =
-    "https://your-api-id.execute-api.region.amazonaws.com/prod/menu"; // replace later!
+  const apiUrl = "https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/menu";
 
   try {
     const response = await fetch(apiUrl, {
