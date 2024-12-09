@@ -20,6 +20,7 @@ const menuItems: MenuItem[] = [
   { id: 6, name: "Octopus Sashimi", category: "Sashimi", price: 8.99 },
   { id: 7, name: "Spicy Tuna Roll", category: "Rolls", price: 7.99 },
   { id: 8, name: "Edamame", category: "Appetizers", price: 3.99 },
+  { id: 9, name: "Pickled Beets", category: "Appetizers", price: 3.99 },
 ]
 
 // Filter categories
