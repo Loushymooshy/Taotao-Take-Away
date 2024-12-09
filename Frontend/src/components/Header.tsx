@@ -1,6 +1,7 @@
 import React from "react";
-import login from "../assets/login.svg";
 import { ShoppingCartDropdown } from "./shopping-cart";
+import LoginButtonWithModal from "./LoginButtonWithModal";
+
 
 const Header: React.FC = () => {
   return (
@@ -25,7 +26,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex space-x-6">
-          <img src={login} alt="login" />
+          <LoginButtonWithModal/>
           <ShoppingCartDropdown />
         </div>
       </div>
