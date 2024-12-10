@@ -11,7 +11,7 @@ const Payment: React.FC = () => {
             <p>Lorem Ipsum</p>
             <h2>TOTAL: $100</h2>
           </section>
-          <form className="bg-pandaWhite text-pandaBlack flex flex-col p-6 w-70 rounded-md">
+          <form className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col p-6 w-70 rounded-md">
             <label className="mt-2 font-bold" htmlFor="card-owmer">
               CARD OWNER:
             </label>

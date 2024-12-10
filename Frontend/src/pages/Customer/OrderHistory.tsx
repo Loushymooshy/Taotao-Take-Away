@@ -58,7 +58,7 @@ const OrderHistory: React.FC = () => {
           {orders.map((order) => (
             <div
               key={order.id}
-              className="border border-gray-200 bg-pandaWhite rounded-lg shadow-sm p-4 hover:shadow-md transition"
+              className="drop-shadow bg-pandaWhite rounded-lg shadow-sm p-4 hover:shadow-md transition"
             >
               <div className="flex justify-between items-center mb-2">
                 <span className="text-2xl text-pandaBlack-700 font-bold">

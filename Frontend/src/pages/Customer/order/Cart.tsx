@@ -3,7 +3,7 @@ const Cart = () => {
     <main>
 <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">CART</h1>
     
-    <div className="bg-pandaWhite p-6 rounded-lg shadow-md flex flex-col w-80">
+    <div className="bg-pandaWhite p-6 rounded-lg drop-shadow flex flex-col w-80">
       <h1 className="text-2xl font-bold mb-4 text-gray-800">YOUR ORDERS</h1>
 
       {/* Lista över varor */}
