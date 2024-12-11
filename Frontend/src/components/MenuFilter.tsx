@@ -1,33 +1,35 @@
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Card from "./Card"
+import getMenu from "../utils/getMenu"
 
 // Menu item type
 type MenuItem = {
-  id: number
+  menuID: string;
   name: string
   category: string
   price: number
 }
 
-// Menu data (normally this would come from an API or database)
-const menuItems: MenuItem[] = [
-  { id: 1, name: "Salmon Nigiri", category: "Sushi", price: 5.99 },
-  { id: 2, name: "Tuna Sashimi", category: "Sashimi", price: 7.99 },
-  { id: 3, name: "California Roll", category: "Rolls", price: 6.99 },
-  { id: 4, name: "Miso Soup", category: "Appetizers", price: 2.99 },
-  { id: 5, name: "Yellowtail Nigiri", category: "Sushi", price: 6.99 },
-  { id: 6, name: "Octopus Sashimi", category: "Sashimi", price: 8.99 },
-  { id: 7, name: "Spicy Tuna Roll", category: "Rolls", price: 7.99 },
-  { id: 8, name: "Edamame", category: "Appetizers", price: 3.99 },
-  { id: 9, name: "Pickled Beets", category: "Appetizers", price: 3.99 },
-]
-
 // Filter categories
 const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"]
 
 const MenuFilter: React.FC = () => {
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
   const [selectedCategory, setSelectedCategory] = useState("All")
+
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const data = await getMenu()
+        setMenuItems(data)
+      } catch (error) {
+        console.error("Error fetching menu items:", error)
+      }
+    }
+
+    fetchMenu()
+  }, [])
 
   const filteredItems = selectedCategory === "All"
     ? menuItems
@@ -52,7 +54,7 @@ const MenuFilter: React.FC = () => {
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4 mt-6">
         {filteredItems.map((item) => (
           <Card 
-            key={item.id}
+            key={item.menuID}
             title={item.name}
             description={item.category}
             price={item.price}
