@@ -3,6 +3,7 @@ const { db } = require("../../services/db");
 const { checkApiKey } = require("../../middleware/checkApiKey");
 
 async function getMenu() {
+  // Step 1: Fetch all menu items from taoMenu
   const { Items } = await db.scan({
     TableName: "taoMenu",
   });
@@ -11,15 +12,16 @@ async function getMenu() {
 }
 
 exports.handler = async (event) => {
-  // Kontrollera API-nyckeln
+  // Check the apikey
   const apiKeyError = checkApiKey(event);
   if (apiKeyError) {
-    return apiKeyError; // Returnera fel om nyckeln inte är giltig
+    return apiKeyError; // Returner error if apikey isnt eligble
   }
   try {
     const data = await getMenu();
     return sendResponse(data);
   } catch (error) {
+    console.error("Error fetching menu:", error);
     return sendError(500, error);
   }
 };
