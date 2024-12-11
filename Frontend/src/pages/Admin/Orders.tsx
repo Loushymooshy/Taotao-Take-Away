@@ -1,9 +1,10 @@
+import OrderManagement from '../../components/OrderManagement';
+
 const Orders: React.FC = () => {
   return (
-    <>
-      <h1>ORDERS</h1>
-      <p>Lorem Ipsum</p>
-    </>
+    <main>
+    <OrderManagement />
+  </main>
   );
 };
 

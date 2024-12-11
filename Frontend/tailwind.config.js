@@ -21,9 +21,9 @@ module.exports = {
         black: "0.5px #1E1E1E",
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "12px", 
+        md: "8px", 
+        sm: "4px", 
       },
     },
   },

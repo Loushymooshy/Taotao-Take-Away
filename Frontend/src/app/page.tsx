@@ -1,4 +1,4 @@
-import { ShoppingCartDropdown } from "@/components/shopping-cart";
+import { ShoppingCartDropdown } from "@/components/ShoppingCart";
 
 export default function Home() {
   return (

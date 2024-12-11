@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingCartDropdown } from "./shopping-cart";
+import { ShoppingCartDropdown } from "./ShoppingCart";
 import LoginButtonWithModal from "./LoginButtonWithModal";
 
 
