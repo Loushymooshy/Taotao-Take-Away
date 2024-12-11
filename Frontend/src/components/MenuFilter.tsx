@@ -1,39 +1,34 @@
+import { useEffect, useState } from "react";
+import Card from "./Card";
+import getMenu from "@/api/getMenu";
+import { MenuItem } from "@/types/Menu";
 
-import { useState, useEffect } from "react"
-import Card from "./Card"
-import getMenu from "../utils/getMenu"
-
-// Menu item type
-type MenuItem = {
-  menuID: string;
-  name: string
-  category: string
-  price: number
-}
 
 // Filter categories
-const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"]
+const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"];
 
 const MenuFilter: React.FC = () => {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([])
-  const [selectedCategory, setSelectedCategory] = useState("All")
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const filteredItems =
+    selectedCategory === "All"
+      ? menuItems
+      : menuItems.filter((item) => item.category === selectedCategory);
 
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        const data = await getMenu()
-        setMenuItems(data)
-      } catch (error) {
-        console.error("Error fetching menu items:", error)
+        const data = await getMenu();
+        setMenuItems(data);
+        console.log(data);
+      } catch {
+        console.error("Error fetching menu items");
       }
-    }
+    };
 
-    fetchMenu()
-  }, [])
-
-  const filteredItems = selectedCategory === "All"
-    ? menuItems
-    : menuItems.filter(item => item.category === selectedCategory)
+    fetchMenu();
+  }, []);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -42,7 +37,9 @@ const MenuFilter: React.FC = () => {
           <button
             key={category}
             className={` w-full px-4 py-2 rounded-full transition-colors ${
-              selectedCategory === category ? "bg-themeGreen text-white" : "bg-gray-200 text-gray-700"
+              selectedCategory === category
+                ? "bg-themeGreen text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
             onClick={() => setSelectedCategory(category)}
           >
@@ -53,10 +50,10 @@ const MenuFilter: React.FC = () => {
 
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4 mt-6">
         {filteredItems.map((item) => (
-          <Card 
+          <Card
             key={item.menuID}
             title={item.name}
-            description={item.category}
+            description={item.ingredients.join(", ")} // Convert ingredients array to a string
             price={item.price}
           />
         ))}
@@ -68,7 +65,7 @@ const MenuFilter: React.FC = () => {
         </p>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default MenuFilter
+export default MenuFilter;
