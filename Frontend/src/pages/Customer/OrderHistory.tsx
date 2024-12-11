@@ -47,7 +47,7 @@ const OrderHistory: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-80 mx-auto p-4">
+    <main className="w-1/2 mx-auto">
       <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">
         Order History
       </h1>
@@ -64,8 +64,10 @@ const OrderHistory: React.FC = () => {
                 <span className="text-2xl text-pandaBlack-700 font-bold">
                   {order.date}
                 </span>
-                <button className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md h-9 text-sm
-                px-2">
+                <button
+                  className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md h-9 text-sm
+                px-2"
+                >
                   ORDER AGAIN
                 </button>
               </div>
@@ -87,7 +89,7 @@ const OrderHistory: React.FC = () => {
           ))}
         </div>
       )}
-    </div>
+    </main>
   );
 };
 

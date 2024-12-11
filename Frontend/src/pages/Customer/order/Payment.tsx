@@ -1,7 +1,7 @@
 const Payment: React.FC = () => {
   return (
     <>
-      <main>
+      <main className="w-1/2 mx-auto">
         <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">
           PAYMENT
         </h1>
