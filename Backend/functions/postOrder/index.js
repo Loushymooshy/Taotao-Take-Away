@@ -8,45 +8,50 @@ exports.handler = async (event) => {
   if (apiKeyError) {
     return apiKeyError; // Returnera fel om nyckeln inte är giltig
   }
-  try {
-    // Extrahera menuID från event.body
-    const body = JSON.parse(event.body);
-    const menuID = body.menuID;
 
-    if (!menuID) {
+  try {
+    // Extrahera varukorg och kommentar från event.body
+    const body = JSON.parse(event.body);
+    const { items, comment } = body;
+
+    if (!items || items.length === 0) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "menuID is required" }),
+        body: JSON.stringify({ error: "Cart is empty" }),
       };
     }
 
-    // 1. Hämta menyinformation från taoMenu
-    const menuParams = {
-      TableName: "taoMenu",
-      Key: { menuID },
-    };
-
-    const menuData = await db.get(menuParams);
-    if (!menuData.Item) {
-      return {
-        statusCode: 404,
-        body: JSON.stringify({ error: "Menu item not found" }),
-      };
-    }
-
-    const ingredients = menuData.Item.ingredients; // Ingredienser från menydata
-
-    // 2. Kontrollera ingredienser i taoStockpile
+    // Kontrollera lagerstatus och uppdatera lagret för varje artikel
     const insufficientStock = [];
-    for (const ingredient of ingredients) {
-      const stockParams = {
-        TableName: "taoStockpile",
-        Key: { ingredient },
+    for (const item of items) {
+      const menuParams = {
+        TableName: "taoMenu",
+        Key: { menuID: item.menuID },
       };
 
-      const stockData = await db.get(stockParams);
-      if (!stockData.Item || stockData.Item.quantity < 1) {
-        insufficientStock.push(ingredient); // Lägg till saknade ingredienser
+      const menuData = await db.get(menuParams);
+      if (!menuData.Item) {
+        return {
+          statusCode: 404,
+          body: JSON.stringify({ error: `Menu item not found: ${item.menuID}` }),
+        };
+      }
+
+      const ingredients = menuData.Item.ingredients; // Ingredienser från menydata
+      for (const ingredient of ingredients) {
+        const stockParams = {
+          TableName: "taoStockpile",
+          Key: { ingredient },
+        };
+
+        const stockData = await db.get(stockParams);
+        if (!stockData.Item || stockData.Item.quantity < item.quantity) {
+          insufficientStock.push({
+            ingredient,
+            required: item.quantity,
+            available: stockData.Item ? stockData.Item.quantity : 0,
+          });
+        }
       }
     }
 
@@ -55,34 +60,44 @@ exports.handler = async (event) => {
       return {
         statusCode: 400,
         body: JSON.stringify({
-          error: "Insufficient stock for ingredients",
+          error: "Insufficient stock for some items",
           insufficient: insufficientStock,
         }),
       };
     }
-    // 3. Uppdatera lagret i taoStockpile
-    for (const ingredient of ingredients) {
-      const updateParams = {
-        TableName: "taoStockpile",
-        Key: { ingredient },
-        UpdateExpression: "SET quantity = quantity - :decrement",
-        ExpressionAttributeValues: {
-          ":decrement": 1,
-        },
+
+    // Uppdatera lagret
+    for (const item of items) {
+      const menuParams = {
+        TableName: "taoMenu",
+        Key: { menuID: item.menuID },
       };
-      await db.update(updateParams);
+
+      const menuData = await db.get(menuParams);
+      const ingredients = menuData.Item.ingredients;
+
+      for (const ingredient of ingredients) {
+        const updateParams = {
+          TableName: "taoStockpile",
+          Key: { ingredient },
+          UpdateExpression: "SET quantity = quantity - :decrement",
+          ExpressionAttributeValues: {
+            ":decrement": item.quantity,
+          },
+        };
+        await db.update(updateParams);
+      }
     }
 
-    // 4. Skapa order i taoOrders
+    // Skapa order
     const orderID = uuid4();
     const orderParams = {
       TableName: "taoOrders",
       Item: {
         orderID,
-        menuID,
-        name: menuData.Item.name,
-        price: menuData.Item.price,
-        ingredients,
+        items, // Hela varukorgen
+        comment, // Kommentar till kocken
+        status: "Pending", // Första statusen
         timestamp: new Date().toISOString(),
       },
     };

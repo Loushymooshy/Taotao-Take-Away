@@ -1,5 +1,5 @@
 # "org" ensures this Service is used with the correct Serverless Framework Access Key.
-org: troand
+org: fe23ht
 # "service" is the name of this project. This will also be added to your AWS resource names.
 service: Backend
 
@@ -53,8 +53,10 @@ functions:
     handler: functions/postOrder/index.handler
     events:
       - httpApi:
-          path: /orders
+          path: /orders/submit
           method: POST
+          cors: true
+
 
     # Ny funktion för login
   login:
@@ -71,6 +73,14 @@ functions:
       - http:
           path: menu/edit
           method: post
+
+  updateOrderStatus:
+    handler: functions/updateOrderStatus/index.handler
+    events:
+      - httpApi:
+          path: /orders/update
+          method: POST
+          cors: true
 
 resources:
   Resources:
