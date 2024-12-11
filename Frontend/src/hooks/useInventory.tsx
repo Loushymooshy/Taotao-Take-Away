@@ -1,4 +1,4 @@
-
+//Backend stuff hohohohoho
 
 // import { useState, useEffect } from 'react'
 // import { getInventory, addItem, removeItem } from 
