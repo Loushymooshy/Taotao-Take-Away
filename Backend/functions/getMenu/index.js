@@ -15,7 +15,7 @@ exports.handler = async (event) => {
   // Check the apikey
   const apiKeyError = checkApiKey(event);
   if (apiKeyError) {
-    return apiKeyError; // Returner error if apikey isnt eligble
+    return apiKeyError; // Return error if apikey isnt eligble
   }
   try {
     const data = await getMenu();
