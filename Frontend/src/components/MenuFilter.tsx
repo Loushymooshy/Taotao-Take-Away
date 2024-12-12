@@ -3,7 +3,6 @@ import Card from "./Card";
 import getMenu from "@/api/getMenu";
 import { MenuItem } from "@/types/Menu";
 
-
 // Filter categories
 const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"];
 

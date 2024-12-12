@@ -1,17 +1,17 @@
 import { MenuItem } from "@/types/Menu";
 
 const getMenu = async (): Promise<MenuItem[]> => {
-  const apiUrl = "https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/menu";
-
   try {
-    const response = await fetch(apiUrl, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "x-api-key": "ABC123",
-      },
-      mode: "cors",
-    });
+    const response = await fetch(
+      "https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/menu",
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "ABC123",
+        },
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
