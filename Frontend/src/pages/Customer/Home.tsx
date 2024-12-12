@@ -1,7 +1,30 @@
 import Card from "../../components/Card";
 import MenuFilter from "../../components/MenuFilter";
+import useMenuItems from "@/hooks/useMenuItems";
+import { useState, useEffect } from "react";
+import { MenuItem } from "@/types/Menu";
 
 const Home: React.FC = () => {
+  const { menuItems, isLoading, error } = useMenuItems(); // custom hook for our fetch
+  const [topTwoItems, setTopTwoItems] = useState<MenuItem[]>([]);
+
+  // check data for the 2 items that have the higest price and then display as favorites
+  useEffect(() => {
+    if (menuItems.length > 0) {
+      const topItems = menuItems
+        .sort((a, b) => b.price - a.price) // Sort by price descending
+        .slice(0, 2); // Get the top two items
+      setTopTwoItems(topItems);
+    }
+  }, [menuItems]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
   return (
     <main>
       <section className="mb-20">
@@ -9,18 +32,16 @@ const Home: React.FC = () => {
           OUR FAVORITES
         </h2>
         <div className="grid md:grid-cols-2 gap-4 mt-10">
-          <Card
-            tall
-            title="Yellowtail Nigiri"
-            description="rice, soy sauce, yellowtail"
-            price={6.99}
-          />
-          <Card
-            tall
-            title="California Roll"
-            description="avocado, crab meat, cucumber, nori, rice, soy sauce"
-            price={7.99}
-          />
+          {topTwoItems.map((item) => (
+            <Card
+              key={item.menuID}
+              tall
+              title={item.name}
+              description={item.ingredients.join(", ")}
+              price={item.price}
+              imageUrl={item.imageUrl}
+            />
+          ))}
         </div>
       </section>
       <section>

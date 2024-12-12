@@ -1,13 +1,12 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "./Card";
-import getMenu from "@/api/getMenu";
-import { MenuItem } from "@/types/Menu";
+import useMenuItems from "@/hooks/useMenuItems";
 
 // Filter categories
 const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"];
 
 const MenuFilter: React.FC = () => {
-  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const { menuItems, isLoading, error } = useMenuItems();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
   const filteredItems =
@@ -15,19 +14,13 @@ const MenuFilter: React.FC = () => {
       ? menuItems
       : menuItems.filter((item) => item.category === selectedCategory);
 
-  useEffect(() => {
-    const fetchMenu = async () => {
-      try {
-        const data = await getMenu();
-        setMenuItems(data);
-        console.log(data);
-      } catch {
-        console.error("Error fetching menu items");
-      }
-    };
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
 
-    fetchMenu();
-  }, []);
+  if (error) {
+    return <p>{error}</p>;
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -54,6 +47,7 @@ const MenuFilter: React.FC = () => {
             title={item.name}
             description={item.ingredients.join(", ")} // Convert ingredients array to a string
             price={item.price}
+            imageUrl={item.imageUrl}
           />
         ))}
       </div>
