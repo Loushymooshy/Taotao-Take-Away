@@ -11,7 +11,9 @@ const Hero: React.FC = () => {
       <h3 className="font-Darumadrop text-xl">
         Where every bite puts a smile on your face
       </h3>
-      <img src={arrowHero} alt="arrowHero" />
+      <a href="#menu">
+        <img src={arrowHero} alt="arrowHero" className="hover:opacity-80" />
+      </a>
     </main>
   );
 };

@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
           <h3 className="text-lg font-bold">NAV</h3>
           <ul className="space-y-1">
             <li>
-              <a href="/menu" className="hover:underline">
+              <a href="/" className="hover:underline">
                 MENU
               </a>
             </li>

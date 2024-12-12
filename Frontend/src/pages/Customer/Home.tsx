@@ -44,7 +44,7 @@ const Home: React.FC = () => {
           ))}
         </div>
       </section>
-      <section>
+      <section id="menu">
         <h2 className="flex justify-center items-center text-4xl font-black font-Darumadrop drop-shadow">
           MENU
         </h2>
