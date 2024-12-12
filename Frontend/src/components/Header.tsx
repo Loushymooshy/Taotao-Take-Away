@@ -2,11 +2,10 @@ import React from "react";
 import { ShoppingCartDropdown } from "./ShoppingCart";
 import LoginButtonWithModal from "./LoginButtonWithModal";
 
-
 const Header: React.FC = () => {
   return (
-    <header className="bg-themeDarkGreen text-pandaWhite shadow-md">
-      <div className="container mx-auto max-w-screen-xl px-4 py-4 flex justify-between items-center">
+    <header className="bg-themeDarkGreen text-pandaWhite top-0 sticky  z-50">
+      <div className="container mx-auto max-w-screen-xl px-4 py-2 flex justify-between items-center">
         <a
           href="/"
           className="font-Darumadrop text-4xl tracking-widest text-outline-black"
@@ -26,7 +25,7 @@ const Header: React.FC = () => {
         </nav>
 
         <div className="flex space-x-6">
-          <LoginButtonWithModal/>
+          <LoginButtonWithModal />
           <ShoppingCartDropdown />
         </div>
       </div>
