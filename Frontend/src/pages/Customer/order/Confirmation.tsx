@@ -14,7 +14,7 @@ type Order = {
 };
 
 const OrderConfirmation: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([
+  const [orders] = useState<Order[]>([
     {
       id: 1,
       restaurant: "Pizza Palace",
