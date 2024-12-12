@@ -5,8 +5,8 @@ const Home: React.FC = () => {
   return (
     <main>
       <section className="mb-20">
-        <h2 className="flex justify-center items-center text-4xl font-black font-Darumadrop drop-shadow">
-          Our Favorites
+        <h2 className="flex justify-center items-center text-4xl font-black font-Darumadrop drop-shadow my-20">
+          OUR FAVORITES
         </h2>
         <div className="grid md:grid-cols-2 gap-4 mt-10">
           <Card tall title="Favorite Sushi" description="Delicious sushi" price={12.99} />
@@ -15,7 +15,7 @@ const Home: React.FC = () => {
       </section>
       <section className="mt-10">
         <h2 className="flex justify-center items-center text-4xl font-black font-Darumadrop drop-shadow">
-          Menu
+          MENU
         </h2>
         <MenuFilter />
       </section>

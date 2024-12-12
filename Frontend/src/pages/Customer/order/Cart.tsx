@@ -75,18 +75,18 @@ const Cart = () => {
                 type="radio"
                 name="payment"
                 value="Online"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
               />
-              <span className="text-gray-700">ONLINE</span>
+              <span className="text-gray-700 font-bold text-ml">ONLINE</span>
             </label>
             <label className="flex items-center space-x-2">
               <input
                 type="radio"
                 name="payment"
                 value="On Site"
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
               />
-              <span className="text-gray-700">ON SITE</span>
+              <span className="text-gray-700 font-bold text-ml">ON SITE</span>
             </label>
           </div>
         </div>
