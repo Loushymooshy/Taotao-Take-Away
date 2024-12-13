@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { postLogin } from '@/api/postLogin'
 
 export default function LoginButtonWithModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -20,19 +21,7 @@ export default function LoginButtonWithModal() {
 
   const handleLogin = async (username: string, password: string) => {
     try {
-      const response = await fetch('https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/dev/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-  
-      if (!response.ok) {
-        throw new Error('Login failed');
-      }
-  
-      const data = await response.json();
+      const data = await postLogin(username, password);
       localStorage.setItem('token', data.token);
       console.log('Login successful:', data.token);
       setIsOpen(false);
