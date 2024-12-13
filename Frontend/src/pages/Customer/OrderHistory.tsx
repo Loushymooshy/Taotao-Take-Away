@@ -1,3 +1,61 @@
+import { useOrder } from "@/context/OrderContext";
+
+const OrderHistory: React.FC = () => {
+  const { orders } = useOrder();
+
+  return (
+    <main className="w-1/2 mx-auto">
+      <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">
+        ORDER HISTORY
+      </h1>
+      {orders.length === 0 ? (
+        <p className="text-gray-500 text-center">You have no previous orders.</p>
+      ) : (
+        <div className="space-y-4">
+          {orders.map((order) => (
+            <div
+              key={order.id}
+              className="drop-shadow bg-pandaWhite rounded-lg shadow-sm p-4 hover:shadow-md transition"
+            >
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-2xl text-pandaBlack-700 font-bold">
+                  {order.date}
+                </span>
+                <button
+                  className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md h-9 text-sm px-2"
+                  onClick={() => alert(`Order ${order.id} placed again!`)}
+                >
+                  ORDER AGAIN
+                </button>
+              </div>
+              <div>
+                <ul className="mb-2">
+                  {order.items.map((item, index) => (
+                    <li key={index} className="text-pandaBlack-700">
+                      {item.quantity}x {item.name}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-pandaBlack-700 font-semibold">
+                  Total: ${order.total.toFixed(2)}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </main>
+  );
+};
+
+export default OrderHistory;
+
+
+
+
+/*
 import React, { useEffect, useState } from "react";
 
 type OrderItem = {
@@ -93,4 +151,4 @@ const OrderHistory: React.FC = () => {
   );
 };
 
-export default OrderHistory;
+export default OrderHistory;*/
