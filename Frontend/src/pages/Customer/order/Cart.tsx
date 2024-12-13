@@ -1,4 +1,26 @@
+import { useCart } from "@/context/CartContext";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+
 const Cart = () => {
+  const { cartItems, incrementItem, decrementItem } = useCart();
+  const navigate = useNavigate();
+  const [paymentMethod, setPaymentMethod] = useState("");
+
+  const totalPrice = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const handleCheckout = () => {
+    if (paymentMethod === "Online") {
+      navigate("/payment");
+    } else if (paymentMethod === "On Site") {
+      navigate("/confirmation");
+    }
+  };
+
   return (
     <main className="w-1/2 mx-auto">
       <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">
@@ -8,56 +30,33 @@ const Cart = () => {
       <div className="bg-pandaWhite p-6 rounded-lg drop-shadow flex flex-col">
         <h1 className="text-2xl font-bold mb-4 text-gray-800">YOUR ORDERS</h1>
 
-        {/* Lista över varor */}
         <ul>
-          <li className="py-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">
-                Pizza Margherita
-              </h2>
-              <p className="text-sm text-gray-500">Quantity: 2</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <p className="text-lg text-gray-800">190 kr</p>
-              <button className="text-red-500 hover:text-red-700 font-medium">
-                REMOVE
-              </button>
-            </div>
-          </li>
-          <li className="py-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">
-                Caesarsallad
-              </h2>
-              <p className="text-sm text-gray-500">Quantity: 1</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <p className="text-lg text-gray-800">85 kr</p>
-              <button className="text-red-500 hover:text-red-700 font-medium">
-                REMOVE
-              </button>
-            </div>
-          </li>
-          <li className="py-4 flex justify-between items-center">
-            <div>
-              <h2 className="text-lg font-semibold text-gray-700">
-                Sushi (10 bitar)
-              </h2>
-              <p className="text-sm text-gray-500">Quantity: 1</p>
-            </div>
-            <div className="flex items-center space-x-4">
-              <p className="text-lg text-gray-800">120 kr</p>
-              <button className="text-red-500 hover:text-red-700 font-medium">
-                REMOVE
-              </button>
-            </div>
-          </li>
+          {cartItems.map((item) => (
+            <li key={item.id} className="py-4 flex justify-between items-center">
+              <div>
+                <h2 className="text-lg font-semibold text-gray-700">
+                  {item.name}
+                </h2>
+                <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+              </div>
+              <div className="flex items-center space-x-4">
+                <p className="text-lg text-gray-800">${item.price * item.quantity}</p>
+                <Button variant="ghost" size="sm" onClick={() => decrementItem(item.id)}>
+                  -
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => incrementItem(item.id)}>
+                  +
+                </Button>
+                
+              </div>
+            </li>
+          ))}
         </ul>
 
         {/* Totalpris */}
         <div className="mt-6 pt-4 border-t border-pandaBlack">
           <h3 className="text-lg font-bold text-right text-gray-800">
-            TOTAL: 395 kr
+            TOTAL: ${totalPrice}
           </h3>
         </div>
 
@@ -67,15 +66,13 @@ const Cart = () => {
             PAYMENT METHODS
           </h2>
           <div className="flex justify-center space-x-4 mb-4">
-            <label
-              className="flex 
-          items-center space-x-2"
-            >
+            <label className="flex items-center space-x-2">
               <input
                 type="radio"
                 name="payment"
                 value="Online"
                 className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                onChange={(e) => setPaymentMethod(e.target.value)}
               />
               <span className="text-gray-700 font-bold text-ml">ONLINE</span>
             </label>
@@ -85,6 +82,7 @@ const Cart = () => {
                 name="payment"
                 value="On Site"
                 className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
+                onChange={(e) => setPaymentMethod(e.target.value)}
               />
               <span className="text-gray-700 font-bold text-ml">ON SITE</span>
             </label>
@@ -104,7 +102,10 @@ const Cart = () => {
         </div>
 
         {/* Checkout-knapp */}
-        <button className="w-full hover:bg-red-800 bg-themeRed text-pandaWhite rounded-md mt-4 h-12">
+        <button
+          className="w-full hover:bg-red-800 bg-themeRed text-pandaWhite rounded-md mt-4 h-12"
+          onClick={handleCheckout}
+        >
           CHECKOUT
         </button>
       </div>
