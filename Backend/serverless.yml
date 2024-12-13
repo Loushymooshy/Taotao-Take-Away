@@ -60,17 +60,17 @@ functions:
   login:
     handler: login/login.handler
     events:
-      - http:
-          path: login
-          method: post
+      - httpApi:
+          path: /login
+          method: POST
 
   # Ny funktion för editMenu
   editMenu:
     handler: functions/getMenu/editMenu.handler
     events:
-      - http:
-          path: menu/edit
-          method: post
+      - httpApi:
+          path: /menu/edit
+          method: POST
 
 resources:
   Resources:

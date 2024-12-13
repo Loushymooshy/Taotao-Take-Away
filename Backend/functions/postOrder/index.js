@@ -9,32 +9,37 @@ exports.handler = async (event) => {
     return apiKeyError; // Returnera fel om nyckeln inte är giltig
   }
   try {
-    // Extrahera menuID från event.body
     const body = JSON.parse(event.body);
-    const menuID = body.menuID;
+    console.log("Received body:", event.body);
+    const { items, total } = body;
 
-    if (!menuID) {
+    if (!items || items.length === 0) {
       return {
         statusCode: 400,
-        body: JSON.stringify({ error: "menuID is required" }),
+        body: JSON.stringify({ error: "No items provided" }),
       };
     }
 
-    // 1. Hämta menyinformation från taoMenu
-    const menuParams = {
-      TableName: "taoMenu",
-      Key: { menuID },
-    };
+    console.log("Validating items:", items); // Log items before querying
+    const validItems = await Promise.all(
+      items.map(async (item) => {
+        console.log("Validating menuID:", item.menuID); // Log each menuID being queried
+        const menuID = String(item.menuID);
+        const params = { TableName: "taoMenu", Key: { menuID } };
+        const data = await db.get(params);
+        console.log("Menu item data:", data); // Log the data fetched from the database
+        return data.Item || null;
+      })
+    );
 
-    const menuData = await db.get(menuParams);
-    if (!menuData.Item) {
+    if (validItems.some((item) => !item)) {
       return {
-        statusCode: 404,
-        body: JSON.stringify({ error: "Menu item not found" }),
+        statusCode: 400,
+        body: JSON.stringify({ error: "Invalid menuID in items" }),
       };
     }
 
-    const ingredients = menuData.Item.ingredients; // Ingredienser från menydata
+    const ingredients = validItems.flatMap((item) => item.ingredients || []);
 
     // 2. Kontrollera ingredienser i taoStockpile
     const insufficientStock = [];
@@ -75,18 +80,17 @@ exports.handler = async (event) => {
 
     // 4. Skapa order i taoOrders
     const orderID = uuid4();
+    const timestamp = new Date().toISOString();
     const orderParams = {
       TableName: "taoOrders",
       Item: {
         orderID,
-        menuID,
-        name: menuData.Item.name,
-        price: menuData.Item.price,
-        ingredients,
-        timestamp: new Date().toISOString(),
+        items,
+        total,
+        timestamp,
       },
     };
-
+    console.log("Inserting order:", orderParams);
     await db.put(orderParams);
 
     return {

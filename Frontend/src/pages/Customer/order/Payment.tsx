@@ -8,20 +8,31 @@ const Payment: React.FC = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-  //BYT UT FETCH URL TILL DIN VÅRAN DATABASE
+  const handleCancel = () => {
+    navigate("/");
+  };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sendOrderToDatabase = async (order: any) => {
     try {
-      const response = await fetch("https://your-database-endpoint.com/orders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(order),
-      });
+      console.log("Sending order to database:", JSON.stringify(order, null, 2));
+      const response = await fetch(
+        "https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/orders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-api-key": "ABC123",
+          },
+          body: JSON.stringify(order),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error("Failed to send order to database");
+        const errorDetails = await response.text();
+        console.error("Response error:", errorDetails);
+        throw new Error(`Failed to send order to database: ${errorDetails}`);
       }
+      console.log("Order successfully sent to the database");
     } catch (error) {
       console.error("Error sending order to database:", error);
     }
@@ -30,33 +41,33 @@ const Payment: React.FC = () => {
   const handlePayment = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    // Create a new order from cart items
     const newOrder = {
-      id: Date.now(),
-      restaurant: "Your Restaurant",
-      date: new Date().toISOString().split("T")[0],
       items: cartItems.map((item) => ({
+        menuID: item.id, // Item details with the menuID
         name: item.name,
         quantity: item.quantity,
       })),
-      total: totalPrice,
+      total: totalPrice, // Total price for the order
     };
 
-    // Send the order to the database
-    await sendOrderToDatabase(newOrder);
+    // Check if there are no items in the cart
+    if (!newOrder.items.length) {
+      console.error("No items found in cart");
+      return;
+    }
 
-    // Store the order details in local storage
-    localStorage.setItem("order", JSON.stringify(newOrder));
+    try {
+      console.log("Sending order to database:", newOrder);
+      // Send the newOrder payload directly to the database
+      await sendOrderToDatabase(newOrder);
 
-    // Clear the cart items
-    clearCart();
-
-    // Navigate to the confirmation page
-    navigate("/confirmation");
-  };
-
-  const handleCancel = () => {
-    navigate("/");
+      // Clear the cart and navigate to confirmation on success
+      clearCart();
+      localStorage.setItem("order", JSON.stringify(newOrder)); // Store order in localStorage
+      navigate("/confirmation", { state: newOrder });
+    } catch (error) {
+      console.error("Error submitting the order:", error);
+    }
   };
 
   return (
