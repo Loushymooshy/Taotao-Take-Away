@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/sheet";
 import cartIcon from "../assets/cart.svg";
 import { useCart } from "@/context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export function ShoppingCartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const { cartItems, incrementItem, decrementItem, removeItem } = useCart();
+  const navigate = useNavigate();
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce(
@@ -84,7 +86,10 @@ export function ShoppingCartDropdown() {
           <div className="mt-4 border-t pt-4">
             <p className="font-semibold">Total: ${totalPrice.toFixed(2)}</p>
           </div>
-          <Button className="w-full mt-4 bg-themeGreen text-white px-5 py-1 hover:bg-themeDarkGreen">
+          <Button
+            className="w-full mt-4 bg-themeGreen text-white px-5 py-1 hover:bg-themeDarkGreen"
+            onClick={() => navigate("/cart")}
+          >
             Checkout
           </Button>
         </div>
