@@ -32,22 +32,36 @@ const Cart = () => {
 
         <ul>
           {cartItems.map((item) => (
-            <li key={item.id} className="py-4 flex justify-between items-center">
+            <li
+              key={item.id}
+              className="py-4 flex justify-between items-center"
+            >
               <div>
                 <h2 className="text-lg font-semibold text-gray-700">
                   {item.name}
                 </h2>
-                <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
+                <p className="text-sm text-gray-500">
+                  Quantity: {item.quantity}
+                </p>
               </div>
               <div className="flex items-center space-x-4">
-                <p className="text-lg text-gray-800">${item.price * item.quantity}</p>
-                <Button variant="ghost" size="sm" onClick={() => decrementItem(item.id)}>
+                <p className="text-lg text-gray-800">
+                  ${item.price * item.quantity}
+                </p>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => decrementItem(item.id)}
+                >
                   -
                 </Button>
-                <Button variant="ghost" size="sm" onClick={() => incrementItem(item.id)}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => incrementItem(item.id)}
+                >
                   +
                 </Button>
-                
               </div>
             </li>
           ))}
@@ -56,7 +70,7 @@ const Cart = () => {
         {/* Totalpris */}
         <div className="mt-6 pt-4 border-t border-pandaBlack">
           <h3 className="text-lg font-bold text-right text-gray-800">
-            TOTAL: ${totalPrice}
+            TOTAL PRICE: ${totalPrice}
           </h3>
         </div>
 

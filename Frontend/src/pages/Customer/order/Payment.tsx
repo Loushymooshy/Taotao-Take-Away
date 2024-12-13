@@ -76,9 +76,9 @@ const Payment: React.FC = () => {
         <h1 className="flex justify-center items-center text-4xl font-black h-48 font-Darumadrop">
           PAYMENT
         </h1>
-        <div className="flex flex-row gap-60">
-          <section>
-            <h2>YOUR ORDERS</h2>
+        <section className="flex flex-row gap-10">
+          <section className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col gap-10 p-6 rounded-md w-72">
+            <h2 className="font-bold text-xl">YOUR ORDER</h2>
             <ul>
               {cartItems.map((item) => (
                 <li key={item.id} className="py-2">
@@ -91,10 +91,12 @@ const Payment: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <h2>TOTAL: ${totalPrice.toFixed(2)}</h2>
+            <h2 className="font-bold text-xl">
+              TOTAL: ${totalPrice.toFixed(2)}
+            </h2>
           </section>
           <form
-            className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col p-6 w-70 rounded-md"
+            className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col p-6 rounded-md w-72"
             onSubmit={handlePayment}
           >
             <label className="mt-2 font-bold" htmlFor="card-owner">
@@ -115,24 +117,24 @@ const Payment: React.FC = () => {
               id="card-number"
               name="card-number"
             />
-            <div className="flex flex-row gap-5">
-              <div className="flex flex-col">
+            <div className="flex flex-row gap-5 flex-wrap">
+              <div className="flex flex-col w-full sm:w-1/2">
                 <label className="mt-2 font-bold" htmlFor="validity-period">
                   VALIDITY PERIOD:
                 </label>
                 <input
-                  className="rounded-md h-8 px-2"
+                  className="rounded-md h-8 px-2 w-full"
                   type="text"
                   id="validity-period"
                   name="validity-period"
                 />
               </div>
-              <div className="flex flex-col">
-                <label className="mt-2 font-bold" htmlFor="cvc">
+              <div className="flex flex-col w-full sm:w-1/2">
+                <label className=" font-bold" htmlFor="cvc">
                   CVC:
                 </label>
                 <input
-                  className="rounded-md h-8 px-2"
+                  className="rounded-md h-8 px-2 w-full"
                   type="text"
                   id="cvc"
                   name="cvc"
@@ -141,7 +143,7 @@ const Payment: React.FC = () => {
             </div>
             {/* Make order */}
             <button
-              className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
+              className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite shadow-md rounded-md mt-4 mb-2 h-12"
               type="submit"
             >
               PAY WITH CARD
@@ -149,7 +151,7 @@ const Payment: React.FC = () => {
             <p className="flex justify-center items-center h-20 font-bold">
               OR
             </p>
-            <label className="mt-2 font-bold" htmlFor="swish-number">
+            <label className="mt-2 font-bold " htmlFor="swish-number">
               SWISH NUMBER:
             </label>
             <input
@@ -159,20 +161,20 @@ const Payment: React.FC = () => {
               name="swish-number"
             />
             <button
-              className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
+              className="bg-themeGreen hover:bg-themeDarkGreen shadow-md text-pandaWhite rounded-md mt-4 mb-2 h-12"
               type="submit"
             >
               PAY WITH SWISH
             </button>
             <button
-              className="bg-themeRed text-pandaWhite rounded-md mt-10 mb-2 h-12"
+              className="bg-themeRed text-pandaWhite shadow-md rounded-md mt-10 mb-2 h-12"
               type="button"
               onClick={handleCancel}
             >
               CANCEL PAYMENT
             </button>
           </form>
-        </div>
+        </section>
       </main>
     </>
   );
