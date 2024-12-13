@@ -23,8 +23,10 @@ export default function LoginButtonWithModal() {
     try {
       const data = await postLogin(username, password);
       localStorage.setItem('token', data.token);
+      localStorage.setItem('role', data.role); 
       console.log('Login successful:', data.token);
       setIsOpen(false);
+      window.location.reload(); 
     } catch (error) {
       setError('Invalid username or password');
       console.error('Error logging in:', error);
