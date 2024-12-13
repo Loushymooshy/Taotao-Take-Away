@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Button } from "@/components/ui/button"
-import {FaSignInAlt} from 'react-icons/fa'
+import { FaSignInAlt } from 'react-icons/fa'
 import {
   Dialog,
   DialogContent,
@@ -14,24 +14,45 @@ import { Label } from "@/components/ui/label"
 
 export default function LoginButtonWithModal() {
   const [isOpen, setIsOpen] = useState(false)
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState("")
+
+  const handleLogin = async (username: string, password: string) => {
+    try {
+      const response = await fetch('https://g0htzmap62.execute-api.eu-north-1.amazonaws.com/dev/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+  
+      const data = await response.json();
+      localStorage.setItem('token', data.token);
+      console.log('Login successful:', data.token);
+      setIsOpen(false);
+    } catch (error) {
+      setError('Invalid username or password');
+      console.error('Error logging in:', error);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    // Here you would typically handle the login logic
-    console.log("'Login attempted with:'", email, password)
-    setIsOpen(false) // Close the modal after submission
+    handleLogin(username, password)
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button  className='rounded border border-gray-300 bg-white text-black shadow-md hover:bg-zinc-100/80 dark:bg-zinc-800'>
+        <Button className='rounded border border-gray-300 bg-white text-black shadow-md hover:bg-zinc-100/80 dark:bg-zinc-800'>
           <FaSignInAlt className='mr-1'/>
           <p>Log in</p>
-        
-
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -43,13 +64,13 @@ export default function LoginButtonWithModal() {
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="username">Username</Label>
             <Input
-              id="email"
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              id="username"
+              type="text"
+              placeholder="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>
@@ -63,10 +84,10 @@ export default function LoginButtonWithModal() {
               required
             />
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <Button type="submit" className="w-full mt-4 bg-themeGreen text-white px-5 py-1 hover:bg-themeDarkGreen">Log In</Button>
         </form>
       </DialogContent>
     </Dialog>
   )
 }
-
