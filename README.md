@@ -3,6 +3,10 @@
 By Troj Andersen, Baran Bulduk, Amanda Cyrus, Ellika Larsson
 FE23
 
+TRELLO: https://trello.com/b/bUyH4eqa/ghost-pirates
+FIGMA: https://www.figma.com/design/XflYEXHKe2llSwlsPBggoQ/Ghost-Pirates?node-id=36-16&node-type=canvas&t=3Pnf7kYDOmabGMyA-0
+SCRUM-PROTOCOL: https://docs.google.com/document/d/1szxrKuJBa_6BMzWtfbFuPWWpLwLCu-Bybvhc_mrNUJA/edit?tab=t.0
+
 More information to come..
 
 Installationer i terminalen, stå i frontend-mappen:
