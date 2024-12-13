@@ -13,6 +13,7 @@ import Orders from "./pages/admin/Orders";
 import UpdateMenu from "./pages/admin/UpdateMenu";
 import StorageStatus from "./pages/admin/StorageStatus";
 import Layout from "./components/Layout";
+import { CartProvider } from "@/context/CartContext";
 
 const rootElement = document.getElementById("root");
 if (!rootElement) {
@@ -23,21 +24,23 @@ const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about-us" element={<AboutUs />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/order-history" element={<OrderHistory />} />
-          <Route path="/payment" element={<Payment />} />
-          <Route path="/confirmation" element={<Confirmation />} />
+      <CartProvider>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about-us" element={<AboutUs />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/order-history" element={<OrderHistory />} />
+            <Route path="/payment" element={<Payment />} />
+            <Route path="/confirmation" element={<Confirmation />} />
 
-          <Route path="/admin/orders" element={<Orders />} />
-          <Route path="/admin/update-menu" element={<UpdateMenu />} />
-          <Route path="/admin/storage-status" element={<StorageStatus />} />
-        </Routes>
-      </Layout>
+            <Route path="/admin/orders" element={<Orders />} />
+            <Route path="/admin/update-menu" element={<UpdateMenu />} />
+            <Route path="/admin/storage-status" element={<StorageStatus />} />
+          </Routes>
+        </Layout>
+      </CartProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
