@@ -8,8 +8,26 @@ const Payment: React.FC = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  //BYT UT FETCH URL TILL DIN VÅRAN DATABASE
+  const sendOrderToDatabase = async (order: any) => {
+    try {
+      const response = await fetch("https://your-database-endpoint.com/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(order),
+      });
 
-  const handlePayment = (event: React.FormEvent) => {
+      if (!response.ok) {
+        throw new Error("Failed to send order to database");
+      }
+    } catch (error) {
+      console.error("Error sending order to database:", error);
+    }
+  };
+
+  const handlePayment = async (event: React.FormEvent) => {
     event.preventDefault();
 
     // Create a new order from cart items
@@ -23,6 +41,9 @@ const Payment: React.FC = () => {
       })),
       total: totalPrice,
     };
+
+    // Send the order to the database
+    await sendOrderToDatabase(newOrder);
 
     // Store the order details in local storage
     localStorage.setItem("order", JSON.stringify(newOrder));
