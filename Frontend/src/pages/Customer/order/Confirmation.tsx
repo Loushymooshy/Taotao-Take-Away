@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useCart } from "@/context/CartContext";
 
 type OrderItem = {
   name: string;
@@ -14,35 +15,39 @@ type Order = {
 };
 
 const OrderConfirmation: React.FC = () => {
-  const [orders] = useState<Order[]>([
-    {
-      id: 1,
-      restaurant: "Pizza Palace",
-      date: "2024-12-01",
-      items: [
-        { name: "Margherita Pizza", quantity: 1 },
-        { name: "Garlic Bread", quantity: 2 },
-      ],
-      total: 20.5,
-    },
-    {
-      id: 2,
-      restaurant: "Sushi Express",
-      date: "2024-12-01",
-      items: [
-        { name: "California Roll", quantity: 3 },
-        { name: "Miso Soup", quantity: 1 },
-      ],
-      total: 35.0,
-    },
-  ]);
+  const { cartItems, removeItem } = useCart();
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  useEffect(() => {
+    const savedOrder = localStorage.getItem("order");
+    if (savedOrder) {
+      setOrders([JSON.parse(savedOrder)]);
+    } else if (cartItems.length > 0) {
+      // Create a new order from cart items
+      const newOrder: Order = {
+        id: Date.now(),
+        restaurant: "Your Restaurant",
+        date: new Date().toISOString().split("T")[0],
+        items: cartItems.map((item) => ({
+          name: item.name,
+          quantity: item.quantity,
+        })),
+        total: cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0),
+      };
+
+      setOrders([newOrder]);
+      localStorage.setItem("order", JSON.stringify(newOrder));
+
+      // Clear the cart items
+      cartItems.forEach((item) => removeItem(item.id));
+    }
+  }, [cartItems, removeItem]);
 
   const [status, setStatus] = useState<"Pending" | "Changed" | "Cancelled">(
     "Pending"
   );
   const [estimatedTime] = useState<string>("30 mins"); // Static estimated time
 
-  // Hantera statusförändring för alla ordrar
   const handleChangeOrder = () => {
     setStatus("Changed");
   };

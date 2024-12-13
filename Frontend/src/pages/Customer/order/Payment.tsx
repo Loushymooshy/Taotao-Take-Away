@@ -1,4 +1,43 @@
+import { useCart } from "@/context/CartContext";
+import { useNavigate } from "react-router-dom";
+
 const Payment: React.FC = () => {
+  const { cartItems, clearCart } = useCart();
+  const navigate = useNavigate();
+  const totalPrice = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
+
+  const handlePayment = (event: React.FormEvent) => {
+    event.preventDefault();
+
+    // Create a new order from cart items
+    const newOrder = {
+      id: Date.now(),
+      restaurant: "Your Restaurant",
+      date: new Date().toISOString().split("T")[0],
+      items: cartItems.map((item) => ({
+        name: item.name,
+        quantity: item.quantity,
+      })),
+      total: totalPrice,
+    };
+
+    // Store the order details in local storage
+    localStorage.setItem("order", JSON.stringify(newOrder));
+
+    // Clear the cart items
+    clearCart();
+
+    // Navigate to the confirmation page
+    navigate("/confirmation");
+  };
+
+  const handleCancel = () => {
+    navigate("/");
+  };
+
   return (
     <>
       <main className="w-1/2 mx-auto">
@@ -8,18 +47,32 @@ const Payment: React.FC = () => {
         <div className="flex flex-row gap-60">
           <section>
             <h2>YOUR ORDERS</h2>
-            <p>Lorem Ipsum</p>
-            <h2>TOTAL: $100</h2>
+            <ul>
+              {cartItems.map((item) => (
+                <li key={item.id} className="py-2">
+                  <div className="flex justify-between">
+                    <span>{item.name}</span>
+                    <span>
+                      {item.quantity} x ${item.price.toFixed(2)}
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <h2>TOTAL: ${totalPrice.toFixed(2)}</h2>
           </section>
-          <form className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col p-6 w-70 rounded-md">
-            <label className="mt-2 font-bold" htmlFor="card-owmer">
+          <form
+            className="drop-shadow bg-pandaWhite text-pandaBlack flex flex-col p-6 w-70 rounded-md"
+            onSubmit={handlePayment}
+          >
+            <label className="mt-2 font-bold" htmlFor="card-owner">
               CARD OWNER:
             </label>
             <input
               className="rounded-md h-8 px-2"
               type="text"
-              id="card-owmer"
-              name="card-owmer"
+              id="card-owner"
+              name="card-owner"
             />
             <label className="mt-2 font-bold" htmlFor="card-number">
               CARD NUMBER:
@@ -54,6 +107,7 @@ const Payment: React.FC = () => {
                 />
               </div>
             </div>
+            {/* Make order */}
             <button
               className="bg-themeGreen hover:bg-themeDarkGreen text-pandaWhite rounded-md mt-4 mb-2 h-12"
               type="submit"
@@ -79,9 +133,9 @@ const Payment: React.FC = () => {
               PAY WITH SWISH
             </button>
             <button
-              className="bg-themeRed
-          text-pandaWhite rounded-md mt-10 mb-2 h-12"
-              type="submit"
+              className="bg-themeRed text-pandaWhite rounded-md mt-10 mb-2 h-12"
+              type="button"
+              onClick={handleCancel}
             >
               CANCEL PAYMENT
             </button>
