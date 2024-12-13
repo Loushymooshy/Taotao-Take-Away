@@ -3,20 +3,33 @@ import MenuFilter from "../../components/MenuFilter";
 import useMenuItems from "@/hooks/useMenuItems";
 import { useState, useEffect } from "react";
 import { MenuItem } from "@/types/Menu";
+import { useCart } from "@/context/CartContext";
 
 const Home: React.FC = () => {
   const { menuItems, isLoading, error } = useMenuItems(); // custom hook for our fetch
   const [topTwoItems, setTopTwoItems] = useState<MenuItem[]>([]);
+  const { addItem } = useCart();
 
   // check data for the 2 items that have the higest price and then display as favorites
+  
   useEffect(() => {
-    if (menuItems.length > 0) {
+    if (menuItems && menuItems.length > 0) {
       const topItems = menuItems
         .sort((a, b) => b.price - a.price) // Sort by price descending
         .slice(0, 2); // Get the top two items
       setTopTwoItems(topItems);
     }
   }, [menuItems]);
+  
+  const addItemToCart = (item: MenuItem) => {
+    const cartItem = {
+      id: Number(item.menuID),
+      name: item.name,
+      price: item.price,
+      quantity: 1,
+    };
+    addItem(cartItem);
+  };
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -40,6 +53,7 @@ const Home: React.FC = () => {
               description={item.ingredients.join(", ")}
               price={item.price}
               imageUrl={item.imageUrl}
+              onAddToCart={() => addItemToCart(item)}
             />
           ))}
         </div>
@@ -48,7 +62,7 @@ const Home: React.FC = () => {
         <h2 className="flex justify-center items-center text-4xl font-black font-Darumadrop drop-shadow">
           MENU
         </h2>
-        <MenuFilter />
+        <MenuFilter addItemToCart={addItemToCart} />
       </section>
     </main>
   );

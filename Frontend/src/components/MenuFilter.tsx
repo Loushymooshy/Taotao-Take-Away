@@ -1,11 +1,16 @@
 import { useState } from "react";
+import { MenuItem } from "@/types/Menu"; 
 import Card from "./Card";
 import useMenuItems from "@/hooks/useMenuItems";
+
+interface MenuFilterProps {
+  addItemToCart: (item: MenuItem) => void;
+}
 
 // Filter categories
 const categories = ["All", "Sushi", "Sashimi", "Rolls", "Appetizers"];
 
-const MenuFilter: React.FC = () => {
+const MenuFilter: React.FC<MenuFilterProps> = ({ addItemToCart }) => {
   const { menuItems, isLoading, error } = useMenuItems();
   const [selectedCategory, setSelectedCategory] = useState("All");
 
@@ -48,6 +53,7 @@ const MenuFilter: React.FC = () => {
             description={item.ingredients.join(", ")} // Convert ingredients array to a string
             price={item.price}
             imageUrl={item.imageUrl}
+            onAddToCart={() => addItemToCart(item)}
           />
         ))}
       </div>

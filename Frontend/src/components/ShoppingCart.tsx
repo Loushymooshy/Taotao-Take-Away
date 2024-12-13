@@ -9,30 +9,19 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import cartIcon from "../assets/cart.svg";
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-}
+import { useCart } from "@/context/CartContext";
+import { useNavigate } from "react-router-dom";
 
 export function ShoppingCartDropdown() {
   const [isOpen, setIsOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    { id: 1, name: "Product 1", price: 19.99, quantity: 2 },
-    { id: 2, name: "Product 2", price: 29.99, quantity: 1 },
-  ]);
+  const { cartItems, incrementItem, decrementItem, removeItem } = useCart();
+  const navigate = useNavigate();
 
   const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
-
-  const removeItem = (id: number) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -67,13 +56,29 @@ export function ShoppingCartDropdown() {
                       {item.quantity} x ${item.price.toFixed(2)}
                     </p>
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => removeItem(item.id)}
-                  >
-                    Remove
-                  </Button>
+                  <div className="flex items-center space-x-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => decrementItem(item.id)}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => incrementItem(item.id)}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => removeItem(item.id)}
+                    >
+                      Remove
+                    </Button>
+                  </div>
                 </li>
               ))}
             </ul>
@@ -81,7 +86,10 @@ export function ShoppingCartDropdown() {
           <div className="mt-4 border-t pt-4">
             <p className="font-semibold">Total: ${totalPrice.toFixed(2)}</p>
           </div>
-          <Button className="w-full mt-4 bg-themeGreen text-white px-5 py-1 hover:bg-themeDarkGreen">
+          <Button
+            className="w-full mt-4 bg-themeGreen text-white px-5 py-1 hover:bg-themeDarkGreen"
+            onClick={() => navigate("/cart")}
+          >
             Checkout
           </Button>
         </div>
