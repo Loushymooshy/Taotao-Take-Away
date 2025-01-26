@@ -7,3 +7,4 @@ export type Order = {
   comment: string;
   chefNote?: string;
 };
+
