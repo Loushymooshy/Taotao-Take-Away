@@ -4,22 +4,13 @@ import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
+import { Order } from "@/types/Order"
 
-type Order = {
-    id: number
-    customerName: string
-    items: string
-    status: "pending" | "in-progress" | "completed"
-    comment: string
-    chefNote: string
-    isLocked: boolean
-  }
-  
 
 type OrderModalProps = {
-  order: Order | null
-  onSave: () => void
-  setEditingOrder: (order: Order) => void
+  order: Order | null;
+  onSave: () => void;
+  setEditingOrder: (order: Order) => void;
 }
 
 export default function OrderModal({ order, onSave, setEditingOrder }: OrderModalProps) {
@@ -50,8 +41,14 @@ export default function OrderModal({ order, onSave, setEditingOrder }: OrderModa
             </Label>
             <Input
               id="edit-items"
-              value={order?.items || ""}
-              onChange={(e) => setEditingOrder({ ...order!, items: e.target.value })}
+              value={order?.items.map(item => `${item.name}:${item.menuID}:${item.quantity}`).join(', ') || ""}
+              onChange={(e) => {
+                const items = e.target.value.split(',').map(item => {
+                  const [name, menuID, quantity] = item.split(':');
+                  return { name, menuID, quantity: Number(quantity) };
+                });
+                setEditingOrder({ ...order!, items });
+              }}
               className="col-span-3"
             />
           </div>
