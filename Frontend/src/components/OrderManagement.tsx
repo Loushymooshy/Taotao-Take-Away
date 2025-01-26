@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import OrderModal from "../components/OrderModal";
-import { fetchOrders } from "@/api/getOrder"; 
+import { fetchOrders } from "@/api/getOrder";
+import { updateOrder as updateOrderAPI } from "@/api/updateOrder";
 import { Order } from "@/types/Order";
 
 export default function OrderManagement() {
@@ -17,6 +18,7 @@ export default function OrderManagement() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [nameFilter, setNameFilter] = useState<string>("");
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAndSetOrders = async () => {
@@ -63,10 +65,14 @@ export default function OrderManagement() {
     updateOrder(orderID, { status: "completed" });
   };
 
-  const handleEditSave = () => {
-    if (editingOrder) {
-      updateOrder(editingOrder.orderID, editingOrder);
+  const handleEditSave = async (updatedOrder: Order) => {
+    try {
+      await updateOrderAPI(updatedOrder.orderID, updatedOrder);
+      updateOrder(updatedOrder.orderID, updatedOrder);
       setEditingOrder(null);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error updating order:", error);
     }
   };
 
@@ -179,17 +185,30 @@ export default function OrderManagement() {
                       Complete
                     </Button>
                   )}
-                  <OrderModal
-                    order={editingOrder}
-                    onSave={handleEditSave}
-                    setEditingOrder={setEditingOrder}
-                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditingOrder(order);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </div>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {editingOrder && (
+        <OrderModal
+          order={editingOrder}
+          onSave={handleEditSave}
+          onClose={() => setIsModalOpen(false)}
+          isOpen={isModalOpen}
+        />
+      )}
     </div>
   );
 }
