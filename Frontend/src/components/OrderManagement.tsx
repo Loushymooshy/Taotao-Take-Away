@@ -18,6 +18,7 @@ export default function OrderManagement() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [chefNote, setChefNote] = useState<string>("");
 
   useEffect(() => {
     const fetchAndSetOrders = async () => {
@@ -55,10 +56,10 @@ export default function OrderManagement() {
     );
   };
 
-  const completeOrder = async (orderID: string) => {
+  const completeOrder = async (orderID: string, chefNote: string) => {
     try {
-      await updateOrderAPI(orderID, { status: "completed" });
-      updateOrder(orderID, { status: "completed" });
+      await updateOrderAPI(orderID, { status: "completed", chefNote });
+      updateOrder(orderID, { status: "completed", chefNote });
     } catch (error) {
       console.error("Error completing order:", error);
     }
@@ -74,122 +75,129 @@ export default function OrderManagement() {
     } catch (error) {
       console.error("Error updating order:", error);
     }
-};
+  };
 
-return (
-  <div className="container mx-auto p-4">
-    <h1 className="text-2xl font-bold mb-4">Order Management</h1>
+  return (
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">Order Management</h1>
 
-    <div className="flex gap-4 mb-4">
-      <Select value={statusFilter} onValueChange={setStatusFilter}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Statuses" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Statuses</SelectItem>
-          <SelectItem value="in-progress">In Progress</SelectItem>
-          <SelectItem value="completed">Completed</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
+      <div className="flex gap-4 mb-4">
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="in-progress">In Progress</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
 
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>ID</TableHead>
-          <TableHead>Items</TableHead>
-          <TableHead>Status</TableHead>
-          <TableHead>Comment</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {filteredOrders.map((order) => (
-          <TableRow key={order.orderID}>
-            <TableCell>{order.orderID}</TableCell>
-            <TableCell>
-              {order.items.map((item, index) => (
-                <div key={index}>
-                  {item.name} (x{item.quantity})
-                </div>
-              ))}
-            </TableCell>
-            <TableCell>
-              <Badge
-                className={
-                  order.status === "completed"
-                    ? "bg-themeGreen text-white  hover:bg-themeDarkGreen"
-                    : "bg-pandaWhite text-black hover:bg-themeCream "
-                }
-              >
-                {order.status}
-              </Badge>
-            </TableCell>
-            <TableCell>
-              <Input
-                value={order.comment}
-                onChange={(e) => updateOrder(order.orderID, { comment: e.target.value })}
-              />
-            </TableCell>
-            <TableCell>
-              <div className="flex gap-2">
-                <Dialog>
-                  <DialogTrigger asChild>
-                    <Button variant="outline" size="sm">
-                      Chef Note
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    <DialogHeader>
-                      <DialogTitle>Add Chef Note</DialogTitle>
-                    </DialogHeader>
-                    <div className="grid gap-4 py-4">
-                      <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="chefNote" className="text-right">
-                          Note
-                        </Label>
-                        <Textarea
-                          id="chefNote"
-                          value={order.chefNote}
-                          onChange={(e) => updateOrder(order.orderID, { chefNote: e.target.value })}
-                          className="col-span-3"
-                        />
-                      </div>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-                {order.status !== "completed" && (
-                  <Button
-                    className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
-                    onClick={() => completeOrder(order.orderID)}
-                    size="sm"
-                  >
-                    Complete
-                  </Button>
-                )}
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setEditingOrder(order);
-                    setIsModalOpen(true);
-                  }}
-                >
-                  Edit
-                </Button>
-              </div>
-            </TableCell>
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>ID</TableHead>
+            <TableHead>Items</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Comment</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-    {editingOrder && (
-      <OrderModal
-        order={editingOrder}
-        onSave={handleEditSave}
-        onClose={() => setIsModalOpen(false)}
-        isOpen={isModalOpen}
-      />
-    )}
-  </div>
-);
+        </TableHeader>
+        <TableBody>
+          {filteredOrders.map((order) => (
+            <TableRow key={order.orderID}>
+              <TableCell>{order.orderID}</TableCell>
+              <TableCell>
+                {order.items.map((item, index) => (
+                  <div key={index}>
+                    {item.name} (x{item.quantity})
+                  </div>
+                ))}
+              </TableCell>
+              <TableCell>
+                <Badge
+                  className={
+                    order.status === "completed"
+                      ? "bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                      : "bg-pandaWhite text-black hover:bg-themeCream "
+                  }
+                >
+                  {order.status}
+                </Badge>
+              </TableCell>
+              <TableCell>
+                <Input
+                  value={order.comment}
+                  onChange={(e) => updateOrder(order.orderID, { comment: e.target.value })}
+                />
+              </TableCell>
+              <TableCell>
+                <div className="flex gap-2">
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <Button variant="outline" size="sm">
+                        Chef Note
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Add Chef Note</DialogTitle>
+                      </DialogHeader>
+                      <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Label htmlFor="chefNote" className="text-right">
+                            Note
+                          </Label>
+                          <Textarea
+                            id="chefNote"
+                            value={chefNote}
+                            onChange={(e) => setChefNote(e.target.value)}
+                            className="col-span-3"
+                          />
+                        </div>
+                      </div>
+                      <Button
+                        className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                        onClick={() => completeOrder(order.orderID, chefNote)}
+                        size="sm"
+                      >
+                        Save Note
+                      </Button>
+                    </DialogContent>
+                  </Dialog>
+                  {order.status !== "completed" && (
+                    <Button
+                      className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                      onClick={() => completeOrder(order.orderID, chefNote)}
+                      size="sm"
+                    >
+                      Complete
+                    </Button>
+                  )}
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditingOrder(order);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
+                </div>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+      {editingOrder && (
+        <OrderModal
+          order={editingOrder}
+          onSave={handleEditSave}
+          onClose={() => setIsModalOpen(false)}
+          isOpen={isModalOpen}
+        />
+      )}
+    </div>
+  );
 }
