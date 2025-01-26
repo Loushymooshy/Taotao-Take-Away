@@ -1,12 +1,31 @@
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import OrderModal from "../components/OrderModal";
 import { fetchOrders } from "@/api/getOrder";
 import { updateOrder as updateOrderAPI } from "@/api/updateOrder";
@@ -52,7 +71,9 @@ export default function OrderManagement() {
 
   const updateOrder = (orderID: string, updates: Partial<Order>) => {
     setOrders(
-      orders.map((order) => (order.orderID === orderID ? { ...order, ...updates } : order))
+      orders.map((order) =>
+        order.orderID === orderID ? { ...order, ...updates } : order
+      )
     );
   };
 
@@ -128,7 +149,11 @@ export default function OrderManagement() {
               <TableCell>
                 <Input
                   value={order.comment}
-                  onChange={(e) => updateOrder(order.orderID, { comment: e.target.value })}
+                  
+                  onChange={(e) =>
+                    updateOrder(order.orderID, { comment: e.target.value })
+                  }
+
                 />
               </TableCell>
               <TableCell>

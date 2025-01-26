@@ -45,7 +45,7 @@ const MenuFilter: React.FC<MenuFilterProps> = ({ addItemToCart }) => {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4 mt-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
         {filteredItems.map((item) => (
           <Card
             key={item.menuID}
