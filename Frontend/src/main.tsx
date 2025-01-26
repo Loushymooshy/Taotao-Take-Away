@@ -2,16 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import Home from "./pages/Customer/Home";
-import AboutUs from "./pages/Customer/AboutUs";
-import Cart from "./pages/Customer/order/Cart";
-import Contact from "./pages/Customer/Contact";
-import OrderHistory from "./pages/Customer/OrderHistory";
-import Payment from "./pages/Customer/order/Payment";
-import Confirmation from "./pages/Customer/order/Confirmation";
-import Orders from "./pages/Admin/Orders";
-import UpdateMenu from "./pages/Admin/UpdateMenu";
-import StorageStatus from "./pages/Admin/StorageStatus";
+import Home from "./pages/customer/Home";
+import AboutUs from "./pages/customer/AboutUs";
+import Cart from "./pages/customer/order/Cart";
+import Contact from "./pages/customer/Contact";
+import OrderHistory from "./pages/customer/OrderHistory";
+import Payment from "./pages/customer/order/Payment";
+import Confirmation from "./pages/customer/order/Confirmation";
+import Orders from "./pages/admin/Orders";
+import UpdateMenu from "./pages/admin/UpdateMenu";
+import StorageStatus from "./pages/admin/StorageStatus";
 import Layout from "./components/Layout";
 import { CartProvider } from "@/context/CartContext";
 // NYTT //
@@ -28,21 +28,21 @@ root.render(
     <BrowserRouter>
       <CartProvider>
         <OrderProvider>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/order-history" element={<OrderHistory />} />
-            <Route path="/payment" element={<Payment />} />
-            <Route path="/confirmation" element={<Confirmation />} />
+          <Layout>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about-us" element={<AboutUs />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route path="/order-history" element={<OrderHistory />} />
+              <Route path="/payment" element={<Payment />} />
+              <Route path="/confirmation" element={<Confirmation />} />
 
-            <Route path="/admin/orders" element={<Orders />} />
-            <Route path="/admin/update-menu" element={<UpdateMenu />} />
-            <Route path="/admin/storage-status" element={<StorageStatus />} />
-          </Routes>
-        </Layout>
+              <Route path="/admin/orders" element={<Orders />} />
+              <Route path="/admin/update-menu" element={<UpdateMenu />} />
+              <Route path="/admin/storage-status" element={<StorageStatus />} />
+            </Routes>
+          </Layout>
         </OrderProvider>
       </CartProvider>
     </BrowserRouter>
