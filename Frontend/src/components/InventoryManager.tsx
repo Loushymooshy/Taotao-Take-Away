@@ -1,26 +1,33 @@
-'use client'
-
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { useToast } from '@/hooks/use-toast';
-import { AddItemModal } from './AddItemModal'
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { AddItemModal } from "./AddItemModal";
+import useInventory from "@/hooks/useInventory";
 
 export default function InventoryManager() {
-  const [inventory, setInventory] = useState([
-    { id: '1', name: 'Item 1', quantity: 10, unit: 'pcs' },
-    { id: '2', name: 'Item 2', quantity: 5, unit: 'pcs' },
-  ])
-  const { toast } = useToast()
+  const { StockItems, isLoading, error } = useInventory();
 
-  const handleRemoveItem = async (formData: FormData) => {
-    const id = formData.get('id')
-    setInventory(inventory.filter(item => item.id !== id))
-    toast({
-      title: 'Success',
-      description: 'Item removed successfully',
-    })
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+  // const handleRemoveItem = async (formData: FormData) => {
+  //   const id = formData.get("id");
+  //   useInventory(inventory.filter((item) => item.id !== id));
+  //   toast({
+  //     title: "Success",
+  //     description: "Item removed successfully",
+  //   });
+  // };
 
   return (
     <div className="space-y-4">
@@ -34,19 +41,22 @@ export default function InventoryManager() {
           <TableRow>
             <TableHead>Name</TableHead>
             <TableHead>Quantity</TableHead>
-            <TableHead>Unit</TableHead>
             <TableHead>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {inventory.map((item) => (
-            <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
+          {StockItems.map((item) => (
+            <TableRow key={item.ingredient}>
+              <TableCell>{item.ingredient}</TableCell>
               <TableCell>{item.quantity}</TableCell>
-              <TableCell>{item.unit}</TableCell>
               <TableCell>
-                <form onSubmit={(e) => { e.preventDefault(); handleRemoveItem(new FormData(e.currentTarget)) }}>
-                  <input type="hidden" name="id" value={item.id} />
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    // handleRemoveItem(new FormData(e.currentTarget));
+                  }}
+                >
+                  <input type="hidden" name="id" value={item.ingredient} />
                   <Button type="submit" className="bg-themeRed" size="sm">
                     Remove
                   </Button>
@@ -57,5 +67,5 @@ export default function InventoryManager() {
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }
