@@ -35,17 +35,6 @@ export default function OrderModal({ order, onSave, onClose, isOpen }: OrderModa
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="edit-customer" className="text-right">
-              Customer
-            </Label>
-            <Input
-              id="edit-customer"
-              value={localOrder?.customerName || ""}
-              onChange={(e) => setLocalOrder({ ...localOrder!, customerName: e.target.value })}
-              className="col-span-3"
-            />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="edit-items" className="text-right">
               Items
             </Label>

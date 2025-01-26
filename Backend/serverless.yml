@@ -72,6 +72,13 @@ functions:
           path: /menu/edit
           method: POST
 
+  updateOrder:
+    handler: functions/updateOrder/index.handler
+    events:
+      - httpApi:
+          path: /orders/{orderID}
+          method: PUT
+
 resources:
   Resources:
     taoMenu:

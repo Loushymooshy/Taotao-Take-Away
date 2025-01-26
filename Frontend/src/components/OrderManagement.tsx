@@ -16,7 +16,6 @@ export default function OrderManagement() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [nameFilter, setNameFilter] = useState<string>("");
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -43,13 +42,8 @@ export default function OrderManagement() {
     if (statusFilter && statusFilter !== "all") {
       result = result.filter((order) => order.status === statusFilter);
     }
-    if (nameFilter) {
-      result = result.filter((order) =>
-        order.customerName.toLowerCase().includes(nameFilter.toLowerCase())
-      );
-    }
     setFilteredOrders(result);
-  }, [orders, statusFilter, nameFilter]);
+  }, [orders, statusFilter]);
 
   const updateOrder = (orderID: string, updates: Partial<Order>) => {
     setOrders(
@@ -81,12 +75,6 @@ export default function OrderManagement() {
       <h1 className="text-2xl font-bold mb-4">Order Management</h1>
 
       <div className="flex gap-4 mb-4">
-        <Input
-          placeholder="Filter by customer name"
-          value={nameFilter}
-          onChange={(e) => setNameFilter(e.target.value)}
-          className="max-w-sm"
-        />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="All Statuses" />
@@ -104,7 +92,6 @@ export default function OrderManagement() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Customer</TableHead>
             <TableHead>Items</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Comment</TableHead>
@@ -114,7 +101,6 @@ export default function OrderManagement() {
           {filteredOrders.map((order) => (
             <TableRow key={order.orderID}>
               <TableCell>{order.orderID}</TableCell>
-              <TableCell>{order.customerName}</TableCell>
               <TableCell>
                 {order.items.map((item, index) => (
                   <div key={index}>
