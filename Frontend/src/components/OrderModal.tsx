@@ -56,14 +56,13 @@ export default function OrderModal({ order, onSave, onClose, isOpen }: OrderModa
               Status
             </Label>
             <Select 
-              value={localOrder?.status} 
-              onValueChange={(value) => setLocalOrder({ ...localOrder!, status: value as Order["status"] })}
+               value={localOrder?.status} 
+               onValueChange={(value) => setLocalOrder({ ...localOrder!, status: value as Order["status"] })}
             >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select status" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="pending">Pending</SelectItem>
                 <SelectItem value="in-progress">In Progress</SelectItem>
                 <SelectItem value="completed">Completed</SelectItem>
               </SelectContent>

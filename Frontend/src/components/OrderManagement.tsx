@@ -44,15 +44,11 @@ export default function OrderManagement() {
     }
     setFilteredOrders(result);
   }, [orders, statusFilter]);
-
+  
   const updateOrder = (orderID: string, updates: Partial<Order>) => {
     setOrders(
       orders.map((order) => (order.orderID === orderID ? { ...order, ...updates } : order))
     );
-  };
-
-  const lockOrder = (orderID: string) => {
-    updateOrder(orderID, { isLocked: true, status: "in-progress" });
   };
 
   const completeOrder = (orderID: string) => {
@@ -75,17 +71,16 @@ export default function OrderManagement() {
       <h1 className="text-2xl font-bold mb-4">Order Management</h1>
 
       <div className="flex gap-4 mb-4">
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All Statuses" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="in-progress">In Progress</SelectItem>
-            <SelectItem value="completed">Completed</SelectItem>
-          </SelectContent>
-        </Select>
+      <Select value={statusFilter} onValueChange={setStatusFilter}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="All Statuses" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">All Statuses</SelectItem>
+          <SelectItem value="in-progress">In Progress</SelectItem>
+          <SelectItem value="completed">Completed</SelectItem>
+        </SelectContent>
+      </Select>
       </div>
 
       <Table>
@@ -153,15 +148,6 @@ export default function OrderManagement() {
                       </div>
                     </DialogContent>
                   </Dialog>
-                  {!order.isLocked && (
-                    <Button
-                      className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
-                      onClick={() => lockOrder(order.orderID)}
-                      size="sm"
-                    >
-                      Lock
-                    </Button>
-                  )}
                   {order.status !== "completed" && (
                     <Button
                       className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
