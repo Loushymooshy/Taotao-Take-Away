@@ -40,7 +40,6 @@ export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
       localStorage.setItem("orders", JSON.stringify(updatedOrders));
     }
   };
-  
 
   return (
     <OrderContext.Provider value={{ orders, addOrder }}>

@@ -1,8 +1,9 @@
 export type Order = {
-    orderID: string;
-    items: { name: string; menuID: string; quantity: number }[];
-    status: "in-progress" | "completed";
-    comment: string;
-    chefNote: string;
-    isLocked: boolean;
+  orderID: string;
+  items: { menuID: string; name: string; quantity: number }[];
+  total: number;
+  status?: "in-progress" | "completed";
+  timestamp?: string;
+  comment: string;
+  chefNote?: string;
 };

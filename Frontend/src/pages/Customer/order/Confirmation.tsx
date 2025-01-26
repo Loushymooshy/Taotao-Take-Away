@@ -51,7 +51,9 @@ const OrderConfirmation: React.FC = () => {
         <div>
           <div className="rounded-lg p-4 transition">
             <div className="flex justify-between items-center mb-2">
-              <h2 className="text-lg font-semibold">Your order was successful!</h2>
+              <h2 className="text-lg font-semibold">
+                Your order was successful!
+              </h2>
               <span className="text-sm text-gray-500">{order.date}</span>
             </div>
             <ul className="mb-2 divide-x-0">
@@ -61,12 +63,16 @@ const OrderConfirmation: React.FC = () => {
                 </li>
               ))}
             </ul>
-            <span className="font-semibold text-gray-700">Total: ${order.total.toFixed(2)}</span>
+            <span className="font-semibold text-gray-700">
+              Total: ${order.total.toFixed(2)}
+            </span>
           </div>
         </div>
         <div className="mt-6 p-4 rounded-lg">
           <div className="flex justify-between items-center">
-            <span className="text-pandaBlack font-semibold">Estimated Time: 30 mins</span>
+            <span className="text-pandaBlack font-semibold">
+              Estimated Time: 30 mins
+            </span>
           </div>
         </div>
       </div>

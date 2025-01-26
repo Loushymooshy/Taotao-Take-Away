@@ -1,12 +1,31 @@
 import { useState, useEffect } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import OrderModal from "../components/OrderModal";
 import { fetchOrders } from "@/api/getOrder";
 import { updateOrder as updateOrderAPI } from "@/api/updateOrder";
@@ -44,10 +63,12 @@ export default function OrderManagement() {
     }
     setFilteredOrders(result);
   }, [orders, statusFilter]);
-  
+
   const updateOrder = (orderID: string, updates: Partial<Order>) => {
     setOrders(
-      orders.map((order) => (order.orderID === orderID ? { ...order, ...updates } : order))
+      orders.map((order) =>
+        order.orderID === orderID ? { ...order, ...updates } : order
+      )
     );
   };
 
@@ -71,16 +92,16 @@ export default function OrderManagement() {
       <h1 className="text-2xl font-bold mb-4">Order Management</h1>
 
       <div className="flex gap-4 mb-4">
-      <Select value={statusFilter} onValueChange={setStatusFilter}>
-        <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="All Statuses" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="all">All Statuses</SelectItem>
-          <SelectItem value="in-progress">In Progress</SelectItem>
-          <SelectItem value="completed">Completed</SelectItem>
-        </SelectContent>
-      </Select>
+        <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="All Statuses" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="in-progress">In Progress</SelectItem>
+            <SelectItem value="completed">Completed</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <Table>
@@ -117,8 +138,9 @@ export default function OrderManagement() {
               <TableCell>
                 <Input
                   value={order.comment}
-                  onChange={(e) => updateOrder(order.orderID, { comment: e.target.value })}
-                  disabled={order.isLocked}
+                  onChange={(e) =>
+                    updateOrder(order.orderID, { comment: e.target.value })
+                  }
                 />
               </TableCell>
               <TableCell>
@@ -141,7 +163,11 @@ export default function OrderManagement() {
                           <Textarea
                             id="chefNote"
                             value={order.chefNote}
-                            onChange={(e) => updateOrder(order.orderID, { chefNote: e.target.value })}
+                            onChange={(e) =>
+                              updateOrder(order.orderID, {
+                                chefNote: e.target.value,
+                              })
+                            }
                             className="col-span-3"
                           />
                         </div>
