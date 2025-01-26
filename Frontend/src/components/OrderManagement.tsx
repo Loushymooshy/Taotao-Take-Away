@@ -1,86 +1,80 @@
-import { useState, useEffect } from "react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, } from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { useState, useEffect } from "react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import OrderModal from "../components/OrderModal";
-
-type Order = {
-  id: number
-  customerName: string
-  items: string
-  status: "pending" | "in-progress" | "completed"
-  comment: string
-  chefNote: string
-  isLocked: boolean
-}
+import { fetchOrders } from "@/api/getOrder";
+import { updateOrder as updateOrderAPI } from "@/api/updateOrder";
+import { Order } from "@/types/Order";
 
 export default function OrderManagement() {
-  const [orders, setOrders] = useState<Order[]>([])
-  const [filteredOrders, setFilteredOrders] = useState<Order[]>([])
-  const [statusFilter, setStatusFilter] = useState<string>("all") // Update 3
-  const [nameFilter, setNameFilter] = useState<string>("")
-  const [editingOrder, setEditingOrder] = useState<Order | null>(null)
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+  const [editingOrder, setEditingOrder] = useState<Order | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchedOrders: Order[] = [
-      { id: 1, customerName: "Alice", items: "Sushi, Soda", status: "pending", comment: "", chefNote: "", isLocked: false },
-      { id: 2, customerName: "Bob", items: "Roll, Soda", status: "in-progress", comment: "", chefNote: "", isLocked: true },
-      { id: 3, customerName: "Charlie", items: "Soba, Sashimi, Soda", status: "completed", comment: "", chefNote: "", isLocked: true },
-    ]
-    setOrders(fetchedOrders)
-    setFilteredOrders(fetchedOrders)
-  }, [])
+    const fetchAndSetOrders = async () => {
+      try {
+        const fetchedOrders = await fetchOrders();
+        if (Array.isArray(fetchedOrders)) {
+          setOrders(fetchedOrders);
+          setFilteredOrders(fetchedOrders);
+        } else {
+          console.error("Fetched orders is not an array:", fetchedOrders);
+        }
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+
+    fetchAndSetOrders();
+  }, []);
 
   useEffect(() => {
-    let result = orders
-    if (statusFilter && statusFilter !== "all") { // Update 2
-      result = result.filter(order => order.status === statusFilter)
+    let result = orders;
+    if (statusFilter && statusFilter !== "all") {
+      result = result.filter((order) => order.status === statusFilter);
     }
-    if (nameFilter) {
-      result = result.filter(order => 
-        order.customerName.toLowerCase().includes(nameFilter.toLowerCase())
-      )
+    setFilteredOrders(result);
+  }, [orders, statusFilter]);
+
+  const updateOrder = (orderID: string, updates: Partial<Order>) => {
+    setOrders(
+      orders.map((order) => (order.orderID === orderID ? { ...order, ...updates } : order))
+    );
+  };
+
+  const lockOrder = (orderID: string) => {
+    updateOrder(orderID, { isLocked: true, status: "in-progress" });
+  };
+
+  const completeOrder = (orderID: string) => {
+    updateOrder(orderID, { status: "completed" });
+  };
+
+  const handleEditSave = async (updatedOrder: Order) => {
+    try {
+      await updateOrderAPI(updatedOrder.orderID, updatedOrder);
+      updateOrder(updatedOrder.orderID, updatedOrder);
+      setEditingOrder(null);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error updating order:", error);
     }
-    setFilteredOrders(result)
-  }, [orders, statusFilter, nameFilter])
-
-  const updateOrder = (id: number, updates: Partial<Order>) => {
-    setOrders(orders.map(order => 
-      order.id === id ? { ...order, ...updates } : order
-    ))
-  }
-
-  const lockOrder = (id: number) => {
-    updateOrder(id, { isLocked: true, status: "in-progress" })
-  }
-
-  const completeOrder = (id: number) => {
-    updateOrder(id, { status: "completed" })
-  }
-
-  const handleEditSave = () => {
-    if (editingOrder) {
-      updateOrder(editingOrder.id, editingOrder)
-      setEditingOrder(null)
-    }
-  }
+  };
 
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Order Management</h1>
-      
+
       <div className="flex gap-4 mb-4">
-        <Input 
-          placeholder="Filter by customer name" 
-          value={nameFilter}
-          onChange={(e) => setNameFilter(e.target.value)}
-          className="max-w-sm"
-        />
         <Select value={statusFilter} onValueChange={setStatusFilter}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="All Statuses" />
@@ -98,7 +92,6 @@ export default function OrderManagement() {
         <TableHeader>
           <TableRow>
             <TableHead>ID</TableHead>
-            <TableHead>Customer</TableHead>
             <TableHead>Items</TableHead>
             <TableHead>Status</TableHead>
             <TableHead>Comment</TableHead>
@@ -106,19 +99,30 @@ export default function OrderManagement() {
         </TableHeader>
         <TableBody>
           {filteredOrders.map((order) => (
-            <TableRow key={order.id}>
-              <TableCell>{order.id}</TableCell>
-              <TableCell>{order.customerName}</TableCell>
-              <TableCell>{order.items}</TableCell>
+            <TableRow key={order.orderID}>
+              <TableCell>{order.orderID}</TableCell>
               <TableCell>
-                <Badge className={order.status === "completed" ? "bg-themeGreen text-white  hover:bg-themeDarkGreen" : "bg-pandaWhite text-black hover:bg-themeCream " }>
+                {order.items.map((item, index) => (
+                  <div key={index}>
+                    {item.name} (x{item.quantity})
+                  </div>
+                ))}
+              </TableCell>
+              <TableCell>
+                <Badge
+                  className={
+                    order.status === "completed"
+                      ? "bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                      : "bg-pandaWhite text-black hover:bg-themeCream "
+                  }
+                >
                   {order.status}
                 </Badge>
               </TableCell>
               <TableCell>
-                <Input 
-                  value={order.comment} 
-                  onChange={(e) => updateOrder(order.id, { comment: e.target.value })}
+                <Input
+                  value={order.comment}
+                  onChange={(e) => updateOrder(order.orderID, { comment: e.target.value })}
                   disabled={order.isLocked}
                 />
               </TableCell>
@@ -126,7 +130,9 @@ export default function OrderManagement() {
                 <div className="flex gap-2">
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button variant="outline" size="sm">Chef Note</Button>
+                      <Button variant="outline" size="sm">
+                        Chef Note
+                      </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
@@ -137,10 +143,10 @@ export default function OrderManagement() {
                           <Label htmlFor="chefNote" className="text-right">
                             Note
                           </Label>
-                          <Textarea 
-                            id="chefNote" 
+                          <Textarea
+                            id="chefNote"
                             value={order.chefNote}
-                            onChange={(e) => updateOrder(order.id, { chefNote: e.target.value })}
+                            onChange={(e) => updateOrder(order.orderID, { chefNote: e.target.value })}
                             className="col-span-3"
                           />
                         </div>
@@ -148,22 +154,47 @@ export default function OrderManagement() {
                     </DialogContent>
                   </Dialog>
                   {!order.isLocked && (
-                    <Button className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen" onClick={() => lockOrder(order.id)} size="sm">
+                    <Button
+                      className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                      onClick={() => lockOrder(order.orderID)}
+                      size="sm"
+                    >
                       Lock
                     </Button>
                   )}
                   {order.status !== "completed" && (
-                    <Button className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen" onClick={() => completeOrder(order.id)} size="sm">
+                    <Button
+                      className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                      onClick={() => completeOrder(order.orderID)}
+                      size="sm"
+                    >
                       Complete
                     </Button>
                   )}
-                  <OrderModal order={editingOrder} onSave={handleEditSave} setEditingOrder={setEditingOrder} />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditingOrder(order);
+                      setIsModalOpen(true);
+                    }}
+                  >
+                    Edit
+                  </Button>
                 </div>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
+      {editingOrder && (
+        <OrderModal
+          order={editingOrder}
+          onSave={handleEditSave}
+          onClose={() => setIsModalOpen(false)}
+          isOpen={isModalOpen}
+        />
+      )}
     </div>
-  )
+  );
 }
