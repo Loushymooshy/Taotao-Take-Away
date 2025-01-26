@@ -1,25 +1,46 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
-type Order = {
+interface Order {
   id: number;
   date: string;
   items: { name: string; quantity: number }[];
   total: number;
-};
+}
 
-type OrderContextType = {
+interface OrderContextProps {
   orders: Order[];
-  addOrder: (order: Order) => void;
-};
+  addOrder: (newOrder: Order) => void;
+}
 
-const OrderContext = createContext<OrderContextType | undefined>(undefined);
+// Skapa context med korrekt typ
+const OrderContext = createContext<OrderContextProps | undefined>(undefined);
 
-export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+interface OrderProviderProps {
+  children: React.ReactNode; // Typen för children som ska tas emot
+}
+
+export const OrderProvider: React.FC<OrderProviderProps> = ({ children }) => {
   const [orders, setOrders] = useState<Order[]>([]);
 
-  const addOrder = (order: Order) => {
-    setOrders((prevOrders) => [...prevOrders, order]);
+  useEffect(() => {
+    // Hämta tidigare order (mock eller från backend)
+    const fetchOrders = async () => {
+      const savedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
+      setOrders(savedOrders);
+    };
+    fetchOrders();
+  }, []);
+
+  const addOrder = (newOrder: Order) => {
+    console.log("Adding order:", newOrder); // Debug-utskrift
+    const isDuplicate = orders.some((order) => order.id === newOrder.id);
+    if (!isDuplicate) {
+      const updatedOrders = [...orders, newOrder];
+      setOrders(updatedOrders);
+      localStorage.setItem("orders", JSON.stringify(updatedOrders));
+    }
   };
+  
 
   return (
     <OrderContext.Provider value={{ orders, addOrder }}>
@@ -28,6 +49,7 @@ export const OrderProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   );
 };
 
+// Hook för att använda context
 export const useOrder = () => {
   const context = useContext(OrderContext);
   if (!context) {

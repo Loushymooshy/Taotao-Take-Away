@@ -53,6 +53,12 @@ const Header: React.FC = () => {
               <a href="/contact" className="hover:underline">
                 CONTACT
               </a>
+               {/* Order History link for customers */}
+               {role === "customer" && (
+                <a href="/order-history" className="hover:underline">
+                  ORDER HISTORY
+                </a>
+              )}
             </>
           )}
         </nav>
