@@ -37,14 +37,19 @@ export default function OrderManagement() {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [chefNote, setChefNote] = useState<string>("");
 
   useEffect(() => {
     const fetchAndSetOrders = async () => {
       try {
         const fetchedOrders = await fetchOrders();
         if (Array.isArray(fetchedOrders)) {
-          setOrders(fetchedOrders);
-          setFilteredOrders(fetchedOrders);
+          const ordersWithStatus = fetchedOrders.map(order => ({
+            ...order,
+            status: order.status || "in-progress"
+          }));
+          setOrders(ordersWithStatus);
+          setFilteredOrders(ordersWithStatus);
         } else {
           console.error("Fetched orders is not an array:", fetchedOrders);
         }
@@ -52,7 +57,7 @@ export default function OrderManagement() {
         console.error("Error fetching orders:", error);
       }
     };
-
+  
     fetchAndSetOrders();
   }, []);
 
@@ -72,12 +77,18 @@ export default function OrderManagement() {
     );
   };
 
-  const completeOrder = (orderID: string) => {
-    updateOrder(orderID, { status: "completed" });
+  const completeOrder = async (orderID: string, chefNote: string) => {
+    try {
+      await updateOrderAPI(orderID, { status: "completed", chefNote });
+      updateOrder(orderID, { status: "completed", chefNote });
+    } catch (error) {
+      console.error("Error completing order:", error);
+    }
   };
 
   const handleEditSave = async (updatedOrder: Order) => {
     try {
+      console.log("Saving updated order:", updatedOrder);
       await updateOrderAPI(updatedOrder.orderID, updatedOrder);
       updateOrder(updatedOrder.orderID, updatedOrder);
       setEditingOrder(null);
@@ -138,9 +149,11 @@ export default function OrderManagement() {
               <TableCell>
                 <Input
                   value={order.comment}
+                  
                   onChange={(e) =>
                     updateOrder(order.orderID, { comment: e.target.value })
                   }
+
                 />
               </TableCell>
               <TableCell>
@@ -162,22 +175,25 @@ export default function OrderManagement() {
                           </Label>
                           <Textarea
                             id="chefNote"
-                            value={order.chefNote}
-                            onChange={(e) =>
-                              updateOrder(order.orderID, {
-                                chefNote: e.target.value,
-                              })
-                            }
+                            value={chefNote}
+                            onChange={(e) => setChefNote(e.target.value)}
                             className="col-span-3"
                           />
                         </div>
                       </div>
+                      <Button
+                        className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
+                        onClick={() => completeOrder(order.orderID, chefNote)}
+                        size="sm"
+                      >
+                        Save Note
+                      </Button>
                     </DialogContent>
                   </Dialog>
                   {order.status !== "completed" && (
                     <Button
                       className="w-full bg-themeGreen text-white  hover:bg-themeDarkGreen"
-                      onClick={() => completeOrder(order.orderID)}
+                      onClick={() => completeOrder(order.orderID, chefNote)}
                       size="sm"
                     >
                       Complete
