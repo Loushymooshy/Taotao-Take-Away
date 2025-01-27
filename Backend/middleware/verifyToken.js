@@ -3,7 +3,8 @@ const jwt = require("jsonwebtoken");
 exports.verifyToken = (allowedRoles) => {
   return async (event) => {
     try {
-      const authHeader = event.headers.Authorization || event.headers.authorization;
+      const authHeader =
+        event.headers.Authorization || event.headers.authorization;
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
         return {
           statusCode: 401,
