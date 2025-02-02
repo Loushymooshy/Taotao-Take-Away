@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -16,14 +16,23 @@ type OrderModalProps = {
 
 export default function OrderModal({ order, onSave, onClose, isOpen }: OrderModalProps) {
   const [localOrder, setLocalOrder] = useState<Order | null>(order);
+  const [itemsInput, setItemsInput] = useState<string>("");
 
   useEffect(() => {
     setLocalOrder(order);
+    setItemsInput(order?.items.map(item => `${item.name}:${item.menuID}:${item.quantity}`).join(', ') || "");
   }, [order]);
 
   const handleSave = () => {
     if (localOrder) {
-      onSave(localOrder);
+      const items = itemsInput.split(',').map(item => {
+        const [name, menuID, quantity] = item.split(':');
+        if (!name || !menuID || isNaN(Number(quantity))) {
+          return null;
+        }
+        return { name, menuID, quantity: Number(quantity) };
+      }).filter(item => item !== null);
+      onSave({ ...localOrder, items: items as Order["items"] });
     }
   };
 
@@ -32,6 +41,9 @@ export default function OrderModal({ order, onSave, onClose, isOpen }: OrderModa
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Edit Order</DialogTitle>
+          <DialogDescription>
+            Update the details of the order below.
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
@@ -40,14 +52,8 @@ export default function OrderModal({ order, onSave, onClose, isOpen }: OrderModa
             </Label>
             <Input
               id="edit-items"
-              value={localOrder?.items.map(item => `${item.name}:${item.menuID}:${item.quantity}`).join(', ') || ""}
-              onChange={(e) => {
-                const items = e.target.value.split(',').map(item => {
-                  const [name, menuID, quantity] = item.split(':');
-                  return { name, menuID, quantity: Number(quantity) };
-                });
-                setLocalOrder({ ...localOrder!, items });
-              }}
+              value={itemsInput}
+              onChange={(e) => setItemsInput(e.target.value)}
               className="col-span-3"
             />
           </div>
